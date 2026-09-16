@@ -2,4 +2,4 @@
 
 Project page for *DARE: Learning Long-Horizon Relational Dynamics for Disturbance-Aware Object Retrieval in Clutter Scenes* (anonymous submission).
 
-Live site: https://back-to-the-future-dare.github.io/
+Live site: https://the-back-to-the-future.github.io/
