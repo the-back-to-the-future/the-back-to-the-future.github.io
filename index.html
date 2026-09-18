@@ -73,6 +73,7 @@
   .headline--small { font-size: 48px; line-height: 1.0833; letter-spacing: -0.003em; margin-bottom: 40px; }
   .intro { margin: 0; font-size: 21px; line-height: 1.381; letter-spacing: 0.011em; }
   .step__text { margin: 0; }
+  #abstract .intro { text-align: justify; hyphens: auto; }
   .intro strong, .step__text strong { font-weight: 600; color: #ffffff; }
   .caption { margin: 16px 0 0; max-width: var(--col-text); font-size: 14px; line-height: 1.43; letter-spacing: -0.016em; color: var(--muted); }
   .text-slot { color: var(--muted); font-style: italic; }
@@ -200,7 +201,7 @@
       <a href="#experiments">Experiments</a>
       <a href="#bibtex">BibTeX</a>
     </div>
-    <span class="bar__pill" aria-disabled="true" title="Coming soon">Paper</span>
+    <span class="bar__pill" aria-disabled="true">Paper (coming soon)</span>
   </div>
 </nav>
 
@@ -218,9 +219,9 @@
     <p class="hero__method">DARE (Disturbance-Aware REtrieval)</p>
     <p class="hero__authors">Anonymous Submission</p>
     <div class="hero__links">
-      <span class="pill" aria-disabled="true" title="Coming soon">Paper</span>
-      <span class="pill" aria-disabled="true" title="Coming soon">Video</span>
-      <span class="pill" aria-disabled="true" title="Coming soon">Code</span>
+      <span class="pill" aria-disabled="true">Paper (coming soon)</span>
+      <span class="pill" aria-disabled="true">Video (coming soon)</span>
+      <span class="pill" aria-disabled="true">Code (coming soon)</span>
     </div>
     <div class="hero__media ph ph--16x9" role="img" aria-label="Video placeholder">
       <span><strong>Video, 16:9</strong>Retrieval clip</span>
@@ -232,7 +233,7 @@
 <main id="main">
 
   <section class="theme-night" id="abstract">
-    <div class="wrap--text">
+    <div class="wrap">
       <h2 class="headline headline--small">Abstract</h2>
       <p class="intro">Retrieving objects from densely packed storage requires <strong>anticipating how contact disturbs surrounding objects</strong> when limited clearance prevents lifting the target over clutter. However, contact can <em>propagate beyond the target’s immediate neighbors</em>, while accumulated prediction errors make learned dynamics <em>unreliable over long planning horizons</em>. We introduce <strong>DARE (Disturbance-Aware REtrieval)</strong>, a geometry-aware relational dynamics framework that uses <strong>retrospective correction</strong> to improve long-horizon prediction for disturbance-aware retrieval. DARE encodes compact object descriptors and predicts action-conditioned disturbance propagation through <strong>object-level message passing</strong>. When a sparse observation becomes available, a learned corrector uses the prediction discrepancy to <strong>amend an earlier predicted state</strong> and reruns the intervening dynamics, propagating the correction through the predicted contact chain. These predictions guide a receding-horizon planner that balances retrieval progress against displacement and rotation of surrounding objects, <strong>permitting necessary contact while discouraging harmful disturbance</strong>. Experiments in planar and RoboCasa environments evaluate long-horizon prediction, generalization, and robustness for disturbance-aware retrieval in dense clutter.</p>
     </div>
