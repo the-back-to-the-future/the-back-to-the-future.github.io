@@ -56,6 +56,41 @@ function initCopy(button) {
   });
 }
 
+// Hero video: it starts itself (muted, looping) unless the reader prefers
+// reduced motion, who gets the poster until pressing Play; each chapter card
+// seeks to its run's start (data-time, seconds) and the card of the run on
+// screen is marked; the toggle pauses and resumes.
+function initHeroVideo(root) {
+  const video = root.querySelector("video");
+  const toggle = root.querySelector("[data-video-toggle]");
+  const chapters = Array.from(root.querySelectorAll("[data-time]"));
+  const starts = chapters.map((chapter) => Number(chapter.dataset.time));
+  const showState = () => { toggle.textContent = video.paused ? "Play" : "Pause"; };
+  const markCurrent = () => {
+    const current = starts.reduce((found, start, index) => (video.currentTime >= start ? index : found), 0);
+    chapters.forEach((chapter, index) => chapter.setAttribute("aria-current", String(index === current)));
+  };
+  const play = () => video.play().catch((error) => {
+    showState();
+    console.error("Hero video could not play", error);
+  });
+  chapters.forEach((chapter, index) => {
+    chapter.addEventListener("click", () => {
+      video.currentTime = starts[index];
+      markCurrent();
+      play();
+    });
+  });
+  toggle.addEventListener("click", () => { if (video.paused) play(); else video.pause(); });
+  video.addEventListener("play", showState);
+  video.addEventListener("pause", showState);
+  video.addEventListener("timeupdate", markCurrent);
+  showState();
+  if (!reduceMotion.matches) play();
+  markCurrent();
+}
+
+document.querySelectorAll("[data-hero-video]").forEach(initHeroVideo);
 document.querySelectorAll("[data-strip]").forEach(initStrip);
 initSteps(Array.from(document.querySelectorAll(".step")));
 document.querySelectorAll("[data-copy]").forEach(initCopy);

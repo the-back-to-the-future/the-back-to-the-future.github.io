@@ -43,9 +43,21 @@
       <span class="pill" aria-disabled="true">Video (coming soon)</span>
       <span class="pill" aria-disabled="true">Code (coming soon)</span>
     </div>
-    <div class="hero__media ph ph--16x9" role="img" aria-label="Video placeholder">
-      <span><strong>Video, 16:9</strong>Retrieval clip</span>
-      <span class="ph__ctrl" aria-hidden="true"></span>
+    <div class="hero__media hero-video" data-hero-video>
+      <video class="hero-video__player" muted loop playsinline preload="auto" width="3840" height="1248" poster="assets/media/hero-947-poster.jpg" aria-describedby="hero-video-caption">
+        <source src="assets/media/hero-947-1920.mp4" type="video/mp4" media="(max-width: 734px)">
+        <source src="assets/media/hero-947-3840.mp4" type="video/mp4">
+      </video>
+      <div class="hero-video__bar">
+        <p class="hero-video__caption" id="hero-video-caption">One cabinet compartment with <em>20 objects in a hard layout</em>: the four methods retrieve <strong>the same wine bottle</strong>, one after another. The badge at the lower left gives the playback speed.</p>
+        <button type="button" class="hero-video__toggle" data-video-toggle>Pause</button>
+      </div>
+      <nav class="chapters" aria-label="Jump to a method">
+        <button type="button" class="chapter" data-time="0"><span class="chapter__time">0:00</span><span class="chapter__name">Collision avoidance</span></button>
+        <button type="button" class="chapter" data-time="12.033"><span class="chapter__time">0:12</span><span class="chapter__name">Direct retrieval</span></button>
+        <button type="button" class="chapter" data-time="17.433"><span class="chapter__time">0:17</span><span class="chapter__name">Ours w/o dist. obj.</span></button>
+        <button type="button" class="chapter" data-time="33.133"><span class="chapter__time">0:33</span><span class="chapter__name">Ours</span></button>
+      </nav>
     </div>
   </div>
 </header>
