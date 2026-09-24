@@ -8,6 +8,8 @@
 <title>Back to the Future: Predicting Long-Horizon Dynamics with Retrospective Correction for Disturbance-Aware Retrieval</title>
 <link rel="stylesheet" href="assets/css/site.css">
 <script src="assets/js/site.js" defer></script>
+<script src="assets/js/vendor/chart-4.5.1.umd.min.js" defer></script>
+<script src="assets/js/charts.js" defer></script>
 </head>
 <body>
 
@@ -160,9 +162,20 @@
   <section class="theme-dusk" id="dynamics">
     <div class="wrap">
       <h2 class="headline">Dynamics Prediction</h2>
-      <figure>
-        <div class="ph ph--2x1" role="img" aria-label="Figure placeholder"><span><strong>Fig. 6</strong>Dynamics prediction</span></div>
-        <figcaption class="caption text-slot">Fig. 6 caption, verbatim from the paper</figcaption>
+      <figure class="chart" data-bar-chart data-chart-src="assets/data/e1-dynamics.json">
+        <div class="chart__controls" data-chart-controls></div>
+        <div class="chart__frame">
+          <canvas data-chart-canvas role="img" aria-label="Terminal pose error of each method, normalized by the no-motion error, at rollout lengths 5, 10 and 40; the table view below carries the same numbers."></canvas>
+          <p class="chart__message" data-chart-message hidden></p>
+          <div class="chart-tip" data-chart-tip hidden><div data-chart-tip-body></div></div>
+        </div>
+        <div class="chart__legend" data-chart-legend role="group" aria-label="Methods shown"></div>
+        <details class="chart__table">
+          <summary>Table view</summary>
+          <div data-chart-table></div>
+        </details>
+        <noscript><p class="caption">The interactive chart needs JavaScript.</p></noscript>
+        <figcaption class="caption">Fig. 6: Dynamics prediction. Terminal translation (left) and rotation (right) errors normalized by the no-motion error at each horizon. Rotation is omitted for symmetric pucks. <em>Choose the world, the error and the methods above; hover a bar for its value.</em></figcaption>
       </figure>
     </div>
   </section>

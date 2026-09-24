@@ -178,10 +178,55 @@ function initHeroVideo(root) {
   markCurrent();
 }
 
-// Every element the stylesheet rounds, found once at load; the corner rule has no exceptions.
-Array.from(document.querySelectorAll("body *"))
-  .filter((el) => parseFloat(getComputedStyle(el).borderTopLeftRadius) > 0)
-  .forEach(initContinuousCorners);
+// Every element the stylesheet rounds inside root, not yet converted; the corner rule has
+// no exceptions, so content built later (the charts' controls) is passed through it too.
+function applyContinuousCorners(root) {
+  Array.from(root.querySelectorAll("*"))
+    .filter((el) => !("corners" in el.dataset) && parseFloat(getComputedStyle(el).borderTopLeftRadius) > 0)
+    .forEach(initContinuousCorners);
+}
+
+applyContinuousCorners(document.body);
+
+// Keyboard focus on an element the corner pass leaves alone (a link, a summary) is shown
+// by one ring with the same continuous curve, drawn over the element; an outline cannot
+// take the curve. The CSS outline stands for readers without JavaScript.
+const FOCUS_RING_GAP = 3;        // px between the element and the ring
+const FOCUS_RING_RADIUS = 4;     // the element's own corner radius the ring grows from, px
+function initFocusRing() {
+  const ns = "http://www.w3.org/2000/svg";
+  const ring = document.createElementNS(ns, "svg");
+  ring.setAttribute("class", "focus-ring");
+  ring.setAttribute("aria-hidden", "true");
+  ring.appendChild(document.createElementNS(ns, "path"));
+  ring.style.display = "none";
+  document.body.appendChild(ring);
+  document.documentElement.dataset.focusRing = "";
+  let target = null;
+  const place = () => {
+    if (!target) return;
+    const box = target.getBoundingClientRect();
+    const w = box.width + 2 * FOCUS_RING_GAP, h = box.height + 2 * FOCUS_RING_GAP;
+    ring.setAttribute("width", w + 2);
+    ring.setAttribute("height", h + 2);
+    ring.style.left = `${box.left + window.scrollX - FOCUS_RING_GAP - 1}px`;
+    ring.style.top = `${box.top + window.scrollY - FOCUS_RING_GAP - 1}px`;
+    const path = ring.firstChild;
+    path.setAttribute("d", continuousRectPath(w, h, FOCUS_RING_RADIUS + FOCUS_RING_GAP));
+    path.setAttribute("transform", "translate(1 1)");
+  };
+  document.addEventListener("focusin", (event) => {
+    const el = event.target;
+    const takesRing = el instanceof Element && !("corners" in el.dataset) && el.matches(":focus-visible");
+    target = takesRing ? el : null;
+    ring.style.display = takesRing ? "" : "none";
+    place();
+  });
+  document.addEventListener("focusout", () => { target = null; ring.style.display = "none"; });
+  window.addEventListener("resize", place);
+}
+
+initFocusRing();
 document.querySelectorAll("[data-hero-video]").forEach(initHeroVideo);
 document.querySelectorAll("[data-strip]").forEach(initStrip);
 initSteps(Array.from(document.querySelectorAll(".step")));

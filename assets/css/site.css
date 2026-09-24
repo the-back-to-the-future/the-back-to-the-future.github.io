@@ -50,6 +50,9 @@ body { margin: 0; background: var(--night); color: var(--cream); color-scheme: d
 .corner-edge { position: absolute; pointer-events: none; overflow: visible; }
 .corner-edge path { fill: none; stroke: var(--edge, transparent); }
 [data-corners]:focus-visible { outline: none; }
+html[data-focus-ring] :focus-visible:not([data-corners]) { outline: none; }
+.focus-ring { position: absolute; z-index: 60; pointer-events: none; overflow: visible; }
+.focus-ring path { fill: none; stroke: var(--btf-yellow); stroke-width: 2px; }
 [data-corners]:focus-visible > .corner-edge path { stroke: var(--btf-yellow); stroke-width: 4px; }
 .wrap { width: min(var(--col), 100% - 2 * var(--gutter)); margin-inline: auto; }
 .wrap--text { width: min(var(--col-text), 100% - 2 * var(--gutter)); margin-inline: auto; }
@@ -137,6 +140,42 @@ figure { margin: 0; }
 .chapter__time { font-size: 14px; font-variant-numeric: tabular-nums; color: var(--accent); }
 .chapter__name { font-size: 17px; font-weight: 600; line-height: 1.235; }
 @media (prefers-reduced-motion: reduce) { .chapter { transition: none; } }
+
+/* Interactive charts (assets/js/charts.js): controls in one row above the plot */
+.chart { margin: 0; }
+.chart__controls { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-bottom: 20px; }
+.segmented { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.segmented__label { margin-right: 4px; font-size: 14px; color: var(--muted); }
+.segmented__option { font: inherit; font-size: 14px; padding: 6px 14px; border-radius: 999px; --edge: var(--rule); border: 1px solid var(--edge); background: transparent; color: var(--cream); cursor: pointer; transition: background-color 0.2s; }
+.segmented__option:hover { background: rgba(247, 239, 217, 0.08); }
+.segmented__option[aria-pressed="true"] { --edge: var(--accent); background: rgba(242, 142, 43, 0.16); }
+.chart__frame { position: relative; height: clamp(300px, 42vw, 440px); }
+.chart__message { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; color: var(--muted); text-align: center; }
+/* display: grid above would override the hidden attribute and leave an empty layer over the canvas, blocking hover */
+.chart__message[hidden] { display: none; }
+/* the tooltip (HTML, so its corners are continuous): beside the pointer, never under it */
+.chart-tip { position: absolute; z-index: 2; min-width: 220px; max-width: 340px; padding: 12px 14px; border-radius: 14px; --edge: var(--rule); border: 1px solid var(--edge); background: rgba(24, 19, 48, 0.94); color: var(--cream); font-size: 13px; line-height: 1.35; pointer-events: none; }
+.chart-tip[hidden] { display: none; }
+.chart-tip__title { margin: 0 0 8px; font-weight: 600; color: var(--muted); }
+.chart-tip__row { display: grid; grid-template-columns: 10px 1fr auto; column-gap: 8px; align-items: baseline; margin-top: 6px; }
+.chart-tip__swatch { width: 10px; height: 10px; border-radius: 3px; background: var(--swatch); }
+.chart-tip__name { font-weight: 500; }
+.chart-tip__value { font-weight: 700; font-variant-numeric: tabular-nums; }
+.chart-tip__detail { grid-column: 2 / 4; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+/* the legend: one toggle per method */
+.chart__legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.legend-item { display: inline-flex; align-items: center; gap: 8px; font: inherit; font-size: 14px; padding: 5px 12px; border-radius: 999px; --edge: transparent; border: 1px solid var(--edge); background: transparent; color: var(--cream); cursor: pointer; }
+.legend-item:hover { background: rgba(247, 239, 217, 0.08); }
+.legend-item[aria-pressed="false"] { color: var(--muted); text-decoration: line-through; }
+.legend-item__swatch { width: 12px; height: 12px; border-radius: 3px; background: var(--swatch); }
+.legend-item[aria-pressed="false"] .legend-item__swatch { opacity: 0.35; }
+.chart__table { margin-top: 16px; font-size: 14px; color: var(--muted); }
+.chart__table summary { cursor: pointer; }
+.chart__table table { margin-top: 12px; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.chart__table caption { text-align: left; margin-bottom: 8px; }
+.chart__table th, .chart__table td { padding: 6px 12px; text-align: right; border-bottom: 1px solid var(--rule); }
+.chart__table th[scope="row"], .chart__table th:first-child { text-align: left; }
+@media (prefers-reduced-motion: reduce) { .segmented__option { transition: none; } }
 
 /* Highlights strip */
 .strip { display: grid; grid-auto-flow: column; grid-auto-columns: min(372px, 78%); gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; padding-inline: max(var(--gutter), (100% - var(--col)) / 2); scroll-padding-inline: max(var(--gutter), (100% - var(--col)) / 2); scrollbar-width: none; }
