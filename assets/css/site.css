@@ -43,6 +43,14 @@ html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--night); color: var(--cream); color-scheme: dark; font-family: var(--sans); font-size: 17px; line-height: 1.47; letter-spacing: -0.022em; -webkit-font-smoothing: antialiased; }
 [id] { scroll-margin-top: var(--bar-h); }
 :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 4px; }
+/* Continuous corners: site.js clips every rounded element to Apple's continuous
+   curve and marks it data-corners; its border is then a stroked copy of that curve
+   coloured by --edge, and keyboard focus thickens that stroke instead of an
+   outline the clip would cut. Without JS the border-radius above stands. */
+.corner-edge { position: absolute; pointer-events: none; overflow: visible; }
+.corner-edge path { fill: none; stroke: var(--edge, transparent); }
+[data-corners]:focus-visible { outline: none; }
+[data-corners]:focus-visible > .corner-edge path { stroke: var(--btf-yellow); stroke-width: 4px; }
 .wrap { width: min(var(--col), 100% - 2 * var(--gutter)); margin-inline: auto; }
 .wrap--text { width: min(var(--col-text), 100% - 2 * var(--gutter)); margin-inline: auto; }
 .skip { position: absolute; left: 12px; top: -48px; z-index: 30; padding: 8px 14px; border-radius: 999px; background: var(--cream); color: var(--night); }
@@ -55,7 +63,7 @@ body { margin: 0; background: var(--night); color: var(--cream); color-scheme: d
 .bar__links { display: flex; gap: 24px; }
 .bar__links a { font-size: 12px; letter-spacing: -0.01em; color: rgba(245, 245, 247, 0.8); text-decoration: none; }
 .bar__links a:hover { color: var(--white); }
-.bar__pill { font-size: 12px; padding: 4px 11px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.35); color: #cfc9dc; cursor: not-allowed; white-space: nowrap; }
+.bar__pill { font-size: 12px; padding: 4px 11px; border-radius: 999px; --edge: rgba(255, 255, 255, 0.35); border: 1px solid var(--edge); color: #cfc9dc; cursor: not-allowed; white-space: nowrap; }
 
 /* Shared type */
 section { padding-block: var(--pad-section); }
@@ -70,7 +78,7 @@ section { padding-block: var(--pad-section); }
 .text-slot { color: var(--muted); font-style: italic; }
 
 /* Media placeholders */
-.ph { position: relative; display: grid; place-items: center; background: var(--ph); border: 1px solid var(--ph-line); color: var(--muted); border-radius: 18px; font-size: 14px; line-height: 1.43; letter-spacing: -0.016em; text-align: center; padding: 16px; box-sizing: border-box; }
+.ph { position: relative; display: grid; place-items: center; background: var(--ph); --edge: var(--ph-line); border: 1px solid var(--edge); color: var(--muted); border-radius: 18px; font-size: 14px; line-height: 1.43; letter-spacing: -0.016em; text-align: center; padding: 16px; box-sizing: border-box; }
 .ph strong { display: block; font-weight: 600; color: inherit; }
 .ph--16x9 { aspect-ratio: 16 / 9; }
 .ph--4x3 { aspect-ratio: 4 / 3; }
@@ -78,7 +86,7 @@ section { padding-block: var(--pad-section); }
 .ph--1x1 { aspect-ratio: 1 / 1; border-radius: 28px; }
 .ph--2x1 { aspect-ratio: 2 / 1; }
 .ph--table { aspect-ratio: 3 / 1; }
-.ph__ctrl { position: absolute; right: 16px; bottom: 16px; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--muted); opacity: 0.6; }
+.ph__ctrl { position: absolute; right: 16px; bottom: 16px; width: 36px; height: 36px; border-radius: 999px; --edge: var(--muted); border: 1px solid var(--edge); opacity: 0.6; }
 .stack > * + * { margin-top: 20px; }
 figure { margin: 0; }
 
@@ -112,7 +120,7 @@ figure { margin: 0; }
 .hero__method { margin: 28px 0 0; font-size: 21px; line-height: 1.381; letter-spacing: 0.011em; color: var(--muted); }
 .hero__authors { margin: 6px 0 0; color: var(--muted); }
 .hero__links { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px; }
-.pill { font-size: 14px; padding: 8px 18px; border-radius: 999px; border: 1px solid rgba(247, 239, 217, 0.3); color: var(--muted); cursor: not-allowed; }
+.pill { font-size: 14px; padding: 8px 18px; border-radius: 999px; --edge: rgba(247, 239, 217, 0.3); border: 1px solid var(--edge); color: var(--muted); cursor: not-allowed; }
 .hero__media { margin-top: 64px; }
 /* Hero video: wider than the page column so its three views read, chapter cards under it */
 .hero-video { --hero-video-w: min(1440px, 100vw - 2 * var(--gutter)); width: var(--hero-video-w); margin-inline: calc((100% - var(--hero-video-w)) / 2); text-align: left; }
@@ -120,12 +128,12 @@ figure { margin: 0; }
 .hero-video__bar { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-top: 14px; }
 .hero-video__caption { margin: 0; max-width: var(--col-text); font-size: 14px; line-height: 1.43; letter-spacing: -0.016em; color: var(--muted); }
 .hero-video__caption strong { color: var(--cream); }
-.hero-video__toggle { flex: none; font: inherit; font-size: 14px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--rule); background: transparent; color: var(--cream); cursor: pointer; }
+.hero-video__toggle { flex: none; font: inherit; font-size: 14px; padding: 6px 14px; border-radius: 999px; --edge: var(--rule); border: 1px solid var(--edge); background: transparent; color: var(--cream); cursor: pointer; }
 .chapters { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
-.chapter { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; font: inherit; text-align: left; color: var(--cream); background: rgba(247, 239, 217, 0.06); border: 1px solid var(--ph-line); border-radius: 14px; cursor: pointer; transition: border-color 0.2s, background-color 0.2s; }
+.chapter { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; font: inherit; text-align: left; color: var(--cream); background: rgba(247, 239, 217, 0.06); --edge: var(--ph-line); border: 1px solid var(--edge); border-radius: 14px; cursor: pointer; transition: border-color 0.2s, background-color 0.2s; }
 .chapter:hover { background: rgba(247, 239, 217, 0.1); }
 .chapter:focus-visible, .hero-video__toggle:focus-visible { outline: 2px solid var(--btf-yellow); outline-offset: 2px; }
-.chapter[aria-current="true"] { border-color: var(--accent); background: rgba(242, 142, 43, 0.12); }
+.chapter[aria-current="true"] { --edge: var(--accent); background: rgba(242, 142, 43, 0.12); }
 .chapter__time { font-size: 14px; font-variant-numeric: tabular-nums; color: var(--accent); }
 .chapter__name { font-size: 17px; font-weight: 600; line-height: 1.235; }
 @media (prefers-reduced-motion: reduce) { .chapter { transition: none; } }
@@ -136,7 +144,7 @@ figure { margin: 0; }
 .tile { scroll-snap-align: start; }
 .tile figcaption { margin-top: 12px; color: var(--muted); }
 .strip-nav { display: flex; justify-content: flex-end; gap: 12px; margin-top: 28px; }
-.strip-nav button { width: 36px; height: 36px; border-radius: 50%; border: 0; background: rgba(247, 239, 217, 0.12); color: var(--cream); font: inherit; font-size: 17px; line-height: 1; cursor: pointer; }
+.strip-nav button { width: 36px; height: 36px; border-radius: 999px; border: 0; background: rgba(247, 239, 217, 0.12); color: var(--cream); font: inherit; font-size: 17px; line-height: 1; cursor: pointer; }
 .strip-nav button:disabled { opacity: 0.35; cursor: default; }
 
 /* Figure grids */
@@ -163,8 +171,8 @@ figure { margin: 0; }
 
 /* BibTeX */
 .bib { position: relative; }
-.bib pre { margin: 0; padding: 24px; padding-right: 96px; border-radius: 18px; background: rgba(0, 0, 0, 0.25); border: 1px solid var(--ph-line); color: var(--cream); white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 14px; line-height: 1.5; letter-spacing: 0; }
-.bib button { position: absolute; top: 16px; right: 16px; font: inherit; font-size: 14px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--rule); background: transparent; color: var(--cream); cursor: pointer; }
+.bib pre { margin: 0; padding: 24px; padding-right: 96px; border-radius: 18px; background: rgba(0, 0, 0, 0.25); --edge: var(--ph-line); border: 1px solid var(--edge); color: var(--cream); white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 14px; line-height: 1.5; letter-spacing: 0; }
+.bib button { position: absolute; top: 16px; right: 16px; font: inherit; font-size: 14px; padding: 6px 14px; border-radius: 999px; --edge: var(--rule); border: 1px solid var(--edge); background: transparent; color: var(--cream); cursor: pointer; }
 
 .foot { padding-block: 40px; text-align: center; font-size: 12px; color: var(--muted); }
 
@@ -196,4 +204,6 @@ figure { margin: 0; }
   .pair, .trio, .stats { grid-template-columns: 1fr; }
   .stat__value { font-size: 40px; }
   .chapters { grid-template-columns: repeat(2, 1fr); }
+  /* the phone cut's frame, one view over two stats rows (its render sidecar's frame_px) */
+  .hero-video__player { aspect-ratio: 1280 / 1296; }
 }
