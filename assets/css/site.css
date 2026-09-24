@@ -141,14 +141,26 @@ figure { margin: 0; }
 .chapter__name { font-size: 17px; font-weight: 600; line-height: 1.235; }
 @media (prefers-reduced-motion: reduce) { .chapter { transition: none; } }
 
+/* Carousel: one slide at a time, arrows and the slide's name above it */
+.carousel__bar { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.carousel__arrow { width: 40px; height: 40px; border-radius: 999px; --edge: var(--rule); border: 1px solid var(--edge); background: rgba(247, 239, 217, 0.08); color: var(--cream); font: inherit; font-size: 22px; line-height: 1; cursor: pointer; }
+.carousel__arrow:hover { background: rgba(247, 239, 217, 0.16); }
+.carousel__status { margin: 0; font-size: 17px; font-weight: 600; color: var(--cream); font-variant-numeric: tabular-nums; }
+[data-carousel-slide][hidden] { display: none; }
+.chart__message--error { position: static; }
+
 /* Interactive charts (assets/js/charts.js): controls in one row above the plot */
 .chart { margin: 0; }
-.chart__controls { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-bottom: 20px; }
-.segmented { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-.segmented__label { margin-right: 4px; font-size: 14px; color: var(--muted); }
-.segmented__option { font: inherit; font-size: 14px; padding: 6px 14px; border-radius: 999px; --edge: var(--rule); border: 1px solid var(--edge); background: transparent; color: var(--cream); cursor: pointer; transition: background-color 0.2s; }
-.segmented__option:hover { background: rgba(247, 239, 217, 0.08); }
-.segmented__option[aria-pressed="true"] { --edge: var(--accent); background: rgba(242, 142, 43, 0.16); }
+.chart__controls { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px 28px; margin-bottom: 24px; }
+/* segmented controls: each group's name above its own track, the chosen option filled */
+.segmented { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+/* the first group (the world) takes its own row; the others share the next */
+.chart__controls > .segmented:first-child { flex-basis: 100%; }
+.segmented__label { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.segmented__track { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 3px; border-radius: 12px; --edge: var(--rule); border: 1px solid var(--edge); background: rgba(247, 239, 217, 0.06); }
+.segmented__option { font: inherit; font-size: 14px; padding: 6px 14px; border-radius: 9px; border: 0; background: transparent; color: var(--cream); cursor: pointer; white-space: nowrap; transition: background-color 0.2s, color 0.2s; }
+.segmented__option:hover { background: rgba(247, 239, 217, 0.1); }
+.segmented__option[aria-pressed="true"] { background: var(--cream); color: var(--night); font-weight: 600; }
 .chart__frame { position: relative; height: clamp(300px, 42vw, 440px); }
 .chart__message { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; color: var(--muted); text-align: center; }
 /* display: grid above would override the hidden attribute and leave an empty layer over the canvas, blocking hover */

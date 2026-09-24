@@ -162,21 +162,25 @@
   <section class="theme-dusk" id="dynamics">
     <div class="wrap">
       <h2 class="headline">Dynamics Prediction</h2>
-      <figure class="chart" data-bar-chart data-chart-src="assets/data/e1-dynamics.json">
-        <div class="chart__controls" data-chart-controls></div>
-        <div class="chart__frame">
-          <canvas data-chart-canvas role="img" aria-label="Terminal pose error of each method, normalized by the no-motion error, at rollout lengths 5, 10 and 40; the table view below carries the same numbers."></canvas>
-          <p class="chart__message" data-chart-message hidden></p>
-          <div class="chart-tip" data-chart-tip hidden><div data-chart-tip-body></div></div>
+      <section class="carousel" data-carousel aria-roledescription="carousel" aria-label="Dynamics prediction charts">
+        <div class="carousel__bar">
+          <button type="button" class="carousel__arrow" data-carousel-prev aria-label="Previous chart">&lsaquo;</button>
+          <p class="carousel__status" data-carousel-status aria-live="polite"></p>
+          <button type="button" class="carousel__arrow" data-carousel-next aria-label="Next chart">&rsaquo;</button>
         </div>
-        <div class="chart__legend" data-chart-legend role="group" aria-label="Methods shown"></div>
-        <details class="chart__table">
-          <summary>Table view</summary>
-          <div data-chart-table></div>
-        </details>
-        <noscript><p class="caption">The interactive chart needs JavaScript.</p></noscript>
-        <figcaption class="caption">Fig. 6: Dynamics prediction. Terminal translation (left) and rotation (right) errors normalized by the no-motion error at each horizon. Rotation is omitted for symmetric pucks. <em>Choose the world, the error and the methods above; hover a bar for its value.</em></figcaption>
-      </figure>
+        <figure class="chart" data-carousel-slide data-slide-title="Terminal error, normalized" data-chart="bars" data-chart-y="ratio" data-chart-src="assets/data/e1-f1.json">
+          <figcaption class="caption">Fig. 6: Dynamics prediction. Terminal translation (left) and rotation (right) errors normalized by the no-motion error at each horizon. Rotation is omitted for symmetric pucks. The seen-object worlds are added here beside the paper's three. <em>Choose the world, the error and the methods above; hover for the values, click the legend to hide a method.</em></figcaption>
+        </figure>
+        <figure class="chart" data-carousel-slide data-slide-title="Terminal error, absolute" data-chart="bars" data-chart-y="value" data-chart-src="assets/data/e1-f1.json">
+          <figcaption class="caption">Terminal translation and rotation errors at each horizon in centimetres and degrees, on a log axis: the numbers behind Fig. 6 before normalization. <em>Choose the world, the error and the methods above; hover for the values, click the legend to hide a method.</em></figcaption>
+        </figure>
+        <figure class="chart" data-carousel-slide data-slide-title="Error at every step, normalized" data-chart="lines" data-chart-y="ratio" data-chart-src="assets/data/e1-f2.json">
+          <figcaption class="caption">Error at every self-fed step, normalized by the no-motion error at the same step; translation steps whose no-motion error is under 0.01 cm are left out. <em>Choose the world, the error and the methods above; hover for the values, click the legend to hide a method.</em></figcaption>
+        </figure>
+        <figure class="chart" data-carousel-slide data-slide-title="Error at every step, absolute" data-chart="lines" data-chart-y="value" data-chart-src="assets/data/e1-f2.json">
+          <figcaption class="caption">Error at every self-fed step in centimetres and degrees, on a log axis. <em>Choose the world, the error and the methods above; hover for the values, click the legend to hide a method.</em></figcaption>
+        </figure>
+      </section>
     </div>
   </section>
 

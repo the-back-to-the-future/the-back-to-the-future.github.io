@@ -227,6 +227,36 @@ function initFocusRing() {
 }
 
 initFocusRing();
+
+// Carousel: one slide shown at a time, the arrow buttons (and the arrow keys while focus
+// is inside) step through them, and the status line names the slide and its position.
+function initCarousel(root) {
+  const slides = Array.from(root.querySelectorAll("[data-carousel-slide]"));
+  const status = root.querySelector("[data-carousel-status]");
+  const prev = root.querySelector("[data-carousel-prev]");
+  const next = root.querySelector("[data-carousel-next]");
+  let current = 0;
+  const show = (index) => {
+    current = (index + slides.length) % slides.length;
+    slides.forEach((slide, i) => {
+      slide.hidden = i !== current;
+      slide.setAttribute("role", "group");
+      slide.setAttribute("aria-roledescription", "slide");
+      slide.setAttribute("aria-label", `${i + 1} of ${slides.length}`);
+    });
+    status.textContent = `${current + 1} / ${slides.length} · ${slides[current].dataset.slideTitle}`;
+  };
+  prev.addEventListener("click", () => show(current - 1));
+  next.addEventListener("click", () => show(current + 1));
+  root.addEventListener("keydown", (event) => {
+    if (event.target.closest("input, textarea, select")) return;
+    if (event.key === "ArrowLeft") { show(current - 1); event.preventDefault(); }
+    if (event.key === "ArrowRight") { show(current + 1); event.preventDefault(); }
+  });
+  show(0);
+}
+
+document.querySelectorAll("[data-carousel]").forEach(initCarousel);
 document.querySelectorAll("[data-hero-video]").forEach(initHeroVideo);
 document.querySelectorAll("[data-strip]").forEach(initStrip);
 initSteps(Array.from(document.querySelectorAll(".step")));
