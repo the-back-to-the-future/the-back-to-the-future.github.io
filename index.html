@@ -191,14 +191,19 @@
         <div class="ph ph--2x1" role="img" aria-label="Figure placeholder"><span><strong>Fig. 4</strong>Tabletop dynamics prediction under noise</span></div>
         <figcaption class="caption text-slot">Fig. 4 caption, verbatim from the paper</figcaption>
       </figure>
-      <figure>
-        <div class="ph ph--2x1" role="img" aria-label="Figure placeholder"><span><strong>Fig. 7</strong>Effect of joint training</span></div>
-        <figcaption class="caption text-slot">Fig. 7 caption, verbatim from the paper</figcaption>
-      </figure>
-      <figure>
-        <div class="ph ph--2x1" role="img" aria-label="Figure placeholder"><span><strong>Fig. 8</strong>Retrospective correction under noise</span></div>
-        <figcaption class="caption text-slot">Fig. 8 caption, verbatim from the paper</figcaption>
-      </figure>
+      <section class="carousel" data-carousel aria-roledescription="carousel" aria-label="Joint training and correction charts">
+        <div class="carousel__bar">
+          <button type="button" class="carousel__arrow" data-carousel-prev aria-label="Previous chart">&lsaquo;</button>
+          <p class="carousel__status" data-carousel-status aria-live="polite"></p>
+          <button type="button" class="carousel__arrow" data-carousel-next aria-label="Next chart">&rsaquo;</button>
+        </div>
+        <figure class="chart" data-carousel-slide data-slide-title="Effect of joint training" data-chart="steps" data-chart-src="assets/data/e2-f7.json">
+          <figcaption class="caption">Fig. 7: Effect of joint training. Terminal translation (top) and rotation (bottom) errors with shared pretrained initialization and matched additional optimization steps. The dashed line is the pretrained network before any additional step. <em>Choose the world and the error above; hover for the values, click the legend to hide a method.</em></figcaption>
+        </figure>
+        <figure class="chart" data-carousel-slide data-slide-title="Retrospective correction under noise" data-chart="noise" data-chart-src="assets/data/e2-f8.json">
+          <figcaption class="caption">Fig. 8: Retrospective correction under noise. Translation (top) and rotation (bottom) RMSE over 40-step rollouts versus observation noise σ, fixed within each rollout. Shading indicates noise levels beyond the noise training range. <em>Choose the world and the error above; hover for the values, click the legend to hide a method.</em></figcaption>
+        </figure>
+      </section>
     </div>
   </section>
 

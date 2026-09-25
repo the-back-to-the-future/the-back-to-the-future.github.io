@@ -1,8 +1,10 @@
 // Interactive figures. A figure[data-chart] names its JSON in data-chart-src (exported from
-// the committed E1 data by dare/project-page/export_chart_data.py), its kind in data-chart
-// ("bars": terminal error at the rollout lengths; "lines": error at every self-fed step)
-// and its value in data-chart-y ("ratio": error / predict-no-motion error; "value": the
-// error itself on a log axis). The figure's markup is only its caption: controls, plot,
+// the committed figure data by dare/project-page/export_chart_data.py), its kind in
+// data-chart ("bars": terminal error at the rollout lengths; "lines": error at every
+// self-fed step; "steps": error against additional optimization steps with a flat
+// pretrained reference; "noise": RMSE against observation noise on a symlog axis with the
+// band beyond the training range) and, for the E1 kinds, its value in data-chart-y
+// ("ratio": error / predict-no-motion error; "value": the error itself on a log axis). The figure's markup is only its caption: controls, plot,
 // tooltip, legend and table view are built here. The chart is drawn when it comes into
 // view; controls switch world / error / methods with an animated transition; hovering
 // shows each method's real numbers; the legend toggles methods; the table view carries the
@@ -15,7 +17,8 @@ const chartReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
 const BAR_RADIUS = 4;             // the data end's corner radius, px
 const TIP_GAP = 14;               // px between the pointer and the tooltip
 const TIP_SWATCH = [10, 3];       // the tooltip swatch's side and corner radius, px (as in site.css)
-const STAR_EVERY = 8;             // a line chart's starred method carries a star every this many steps
+const STAR_EVERY = 8;
+const Y_FIT_PAD = 0.05;          // Fig. 7's data-fitted y range, padded this fraction each side (matplotlib's margin)             // a line chart's starred method carries a star every this many steps
 
 // A colour token of the stylesheet, so the charts share the page's palette.
 function cssToken(name) {
@@ -150,11 +153,32 @@ function lineDatasets(data, state, yMode) {
   });
 }
 
+// The E2 kinds: one series per method over an x of steps or noise levels, each point's
+// cell carrying the value alone (no no-motion floor).
+function seriesDatasets(data, state) {
+  const panel = panelOf(data, state);
+  if (!panel.series) return [];
+  return viewTags(data, state, Object.keys(panel.series)).map((tag) => {
+    const row = panel.series[tag];
+    const cells = row.x.map((x, i) => ({ x, value: row.value[i], floor: null, ratio: undefined }));
+    return {
+      tag, label: data.methods[tag].label, color: data.methods[tag].color, starred: data.methods[tag].starred,
+      cells,
+      data: cells.map((cell) => ({ x: cell.x, y: cell.value })),
+      borderColor: data.methods[tag].color, backgroundColor: data.methods[tag].color,
+      borderWidth: 2, pointRadius: 3, pointHoverRadius: 5, tension: 0, spanGaps: false,
+    };
+  });
+}
+
+const DATASET_BUILDERS = { bars: barDatasets, lines: lineDatasets, steps: seriesDatasets, noise: seriesDatasets };
+
 // ---------------------------------------------------------------------------
 // Tables (each chart's accessible twin)
 // ---------------------------------------------------------------------------
 function cellText(cell, unit) {
   if (cell === null) return "–";
+  if (cell.ratio === undefined) return withUnit(cell.value, unit);
   const ratio = cell.ratio === null ? "ratio left out" : `${cell.ratio.toFixed(2)}×`;
   return `${withUnit(cell.value, unit)} (${ratio})`;
 }
@@ -163,8 +187,9 @@ function tableShell(data, state, columns) {
   const channel = channelOf(data, state);
   const world = data.worlds.find((w) => w.key === state.world).label;
   const table = el("table");
-  table.createCaption().textContent =
-    `${world}, ${channel.label.toLowerCase()} error (in brackets: ratio to the no-motion error)`;
+  table.createCaption().textContent = data.ratio_ymax === undefined
+    ? `${world}, ${channel.label.toLowerCase()}`
+    : `${world}, ${channel.label.toLowerCase()} error (in brackets: ratio to the no-motion error)`;
   const head = table.createTHead().insertRow();
   columns.forEach((text) => {
     const th = el("th", null, text);
@@ -196,15 +221,27 @@ function barTable(data, state, datasets) {
 
 function lineTable(data, state, datasets) {
   const panel = panelOf(data, state);
-  const table = tableShell(data, state, ["Step", ...datasets.map((s) => (s.starred ? `${s.label} ★` : s.label))]);
+  const xHead = data.x_label ?? "Step";
+  const table = tableShell(data, state, [xHead, ...datasets.map((s) => (s.starred ? `${s.label} ★` : s.label))]);
   if (panel.message) { table.caption.textContent += `. ${panel.message}`; return table; }
   const unit = channelOf(data, state).unit;
   const body = table.createTBody();
-  const steps = datasets.length ? datasets[0].cells.map((cell) => cell.depth) : [];
-  steps.forEach((step, i) => {
+  if (panel.reference) {
     const row = body.insertRow();
-    rowHeader(row, String(step));
-    datasets.forEach((set) => { row.insertCell().textContent = cellText(set.cells[i] ?? null, unit); });
+    rowHeader(row, data.reference_label);
+    const cell = row.insertCell();
+    cell.colSpan = datasets.length;
+    cell.textContent = withUnit(panel.reference.value, unit);
+  }
+  // every x any series carries, in order (the E2 series share few points but not all)
+  const xs = [...new Set(datasets.flatMap((set) => set.cells.map((cell) => cell.depth ?? cell.x)))].sort((a, b) => a - b);
+  xs.forEach((x) => {
+    const row = body.insertRow();
+    rowHeader(row, String(x));
+    datasets.forEach((set) => {
+      const cell = set.cells.find((c) => (c.depth ?? c.x) === x) ?? null;
+      row.insertCell().textContent = cellText(cell, unit);
+    });
   });
   return table;
 }
@@ -293,11 +330,61 @@ const starredMarks = {
         if (options.kind === "bars") {
           const top = Math.max(mark.y, chartArea.top);
           drawStar(ctx, mark.x, (top + mark.base) / 2, Math.min(6, Math.max(3, (mark.base - top) / 3)));
-        } else if (set.cells[j].depth % STAR_EVERY === 0 && mark.y >= chartArea.top && mark.y <= chartArea.bottom) {
+        } else if ((set.cells[j].depth === undefined || set.cells[j].depth % STAR_EVERY === 0)
+                   && mark.y >= chartArea.top && mark.y <= chartArea.bottom) {
           drawStar(ctx, mark.x, mark.y, 6);
         }
       });
     });
+    ctx.restore();
+  },
+};
+
+// Fig. 7's pretrained network: a dashed flat reference across the panel.
+const referenceLine = {
+  id: "referenceLine",
+  beforeDatasetsDraw(chart, _args, options) {
+    const panel = options.panel();
+    if (!panel || !panel.reference) return;
+    const { ctx, chartArea, scales } = chart;
+    const y = scales.y.getPixelForValue(panel.reference.value);
+    if (y < chartArea.top || y > chartArea.bottom) return;
+    ctx.save();
+    ctx.strokeStyle = options.color;
+    ctx.setLineDash([6, 4]);
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(chartArea.left, y);
+    ctx.lineTo(chartArea.right, y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = options.color;
+    ctx.font = `500 11px ${Chart.defaults.font.family}`;
+    ctx.textAlign = "left";
+    ctx.textBaseline = "bottom";
+    ctx.fillText(options.label, chartArea.left + 6, y - 4);
+    ctx.restore();
+  },
+};
+
+// Fig. 8's band beyond the noise training range, shaded behind the curves.
+const oodBand = {
+  id: "oodBand",
+  beforeDatasetsDraw(chart, _args, options) {
+    const panel = options.panel();
+    if (!panel || !panel.ood) return;
+    const { ctx, chartArea, scales } = chart;
+    const left = Math.max(chartArea.left, scales.x.getPixelForValue(panel.ood.from));
+    const right = Math.min(chartArea.right, scales.x.getPixelForValue(panel.ood.to));
+    if (right <= left) return;
+    ctx.save();
+    ctx.fillStyle = options.fill;
+    ctx.fillRect(left, chartArea.top, right - left, chartArea.bottom - chartArea.top);
+    ctx.fillStyle = options.color;
+    ctx.font = `500 11px ${Chart.defaults.font.family}`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    ctx.fillText(options.label, (left + right) / 2, chartArea.top + 6);
     ctx.restore();
   },
 };
@@ -337,11 +424,13 @@ function renderTooltip(parts, tooltip, unit, title) {
     // a fixed-size square: its continuous corner is set once, no resize observer per hover
     swatch.style.borderRadius = "0";
     swatch.style.clipPath = `path("${continuousRectPath(TIP_SWATCH[0], TIP_SWATCH[0], TIP_SWATCH[1])}")`;
-    const ratio = cell.ratio === null ? "ratio left out (no-motion error near zero)"
-      : `${cell.ratio.toFixed(2)}×` + (cell.unreliable ? " · ratio unreliable" : "");
     row.append(swatch, el("span", "chart-tip__name", set.starred ? `${set.label} ★` : set.label),
-      el("strong", "chart-tip__value", withUnit(cell.value, unit)),
-      el("span", "chart-tip__detail", `no-motion ${withUnit(cell.floor, unit)} · ${ratio}`));
+      el("strong", "chart-tip__value", withUnit(cell.value, unit)));
+    if (cell.ratio !== undefined) {
+      const ratio = cell.ratio === null ? "ratio left out (no-motion error near zero)"
+        : `${cell.ratio.toFixed(2)}×` + (cell.unreliable ? " · ratio unreliable" : "");
+      row.append(el("span", "chart-tip__detail", `no-motion ${withUnit(cell.floor, unit)} · ${ratio}`));
+    }
     return row;
   });
   tipBody.replaceChildren(el("p", "chart-tip__title", title(tooltip.dataPoints[0])), ...rows);
@@ -383,10 +472,27 @@ function logTick(value) {
   return [1, 2, 5].includes(lead) ? String(Number(value.toPrecision(2))) : "";
 }
 
-function yAxis(data, state, yMode) {
+// Fig. 7's y range fits the data as the paper figure does (no fixed origin): the span of
+// every series plus the pretrained reference, padded Y_FIT_PAD each side, then widened to
+// the tick grid (suggested bounds) so the axis ends on round ticks.
+function fittedRange(panel) {
+  const values = Object.values(panel.series).flatMap((series) => series.value);
+  if (panel.reference) values.push(panel.reference.value);
+  const low = Math.min(...values), high = Math.max(...values), pad = (high - low) * Y_FIT_PAD;
+  return { suggestedMin: low - pad, suggestedMax: high + pad };
+}
+
+function yAxis(kind, data, state, yMode) {
   const text = cssToken("--lavender");
   const grid = { color: withAlpha(cssToken("--cream"), 0.16) };
   const unit = channelOf(data, state).unit;
+  if (yMode === "plain") {
+    const what = data.y_label ?? "Terminal error";
+    const panel = panelOf(data, state);
+    const range = kind === "steps" && panel.series ? fittedRange(panel) : { beginAtZero: true };
+    return { ...range, grid, border: { display: false }, ticks: { color: text },
+             title: { display: true, color: text, text: `${what} (${unit})` } };
+  }
   const title = { display: true, color: text,
                   text: yMode === "ratio" ? "Error / predict-no-motion error" : `Error (${unit}, log axis)` };
   if (yMode === "ratio") {
@@ -396,33 +502,78 @@ function yAxis(data, state, yMode) {
   return { type: "logarithmic", title, grid, border: { display: false }, ticks: { color: text, callback: logTick } };
 }
 
+// Fig. 8's x axis: the paper's symlog (linear below linthresh, log above), applied as a
+// transform so the zero-noise point sits on the axis; ticks at the scored levels.
+function symlog(x, linthresh) {
+  return x <= linthresh ? x / linthresh : 1 + Math.log10(x / linthresh);
+}
+
+function noiseXAxis(data, state, text) {
+  const panel = panelOf(data, state);
+  const unit = channelOf(data, state).unit;
+  const levels = panel.series ? panel.series[Object.keys(panel.series)[0]].x : [];
+  const ticks = levels.map((x) => ({ value: symlog(x, panel.linthresh), label: unit === "°" ? `${x}°` : `${x}` }));
+  return { type: "linear", min: 0, max: symlog(panel.x_limits[1], panel.linthresh),
+           grid: { display: false }, afterBuildTicks: (axis) => { axis.ticks = ticks; },
+           ticks: { color: text, callback: (_v, i) => ticks[i]?.label ?? "" },
+           title: { display: true, text: `${data.x_label} (${unit})`, color: text } };
+}
+
+function xAxis(kind, data, state, text) {
+  if (kind === "bars") {
+    return { grid: { display: false }, ticks: { color: text }, title: { display: true, text: "Rollout length (steps)", color: text } };
+  }
+  if (kind === "lines") {
+    return { type: "linear", min: 1, grid: { display: false }, ticks: { color: text, stepSize: 5 },
+             title: { display: true, text: "Self-fed step", color: text } };
+  }
+  if (kind === "steps") {
+    const panel = panelOf(data, state);
+    return { type: "linear", min: 0, max: panel.x_limits ? panel.x_limits[1] : undefined, grid: { display: false },
+             ticks: { color: text, callback: (v) => `${v / 1000}k` }, title: { display: true, text: data.x_label, color: text } };
+  }
+  return noiseXAxis(data, state, text);
+}
+
+// Chart.js needs x in axis units: the noise kind stores the symlog-transformed x on the point.
+function transformForAxis(kind, data, state, datasets) {
+  if (kind !== "noise") return datasets;
+  const panel = panelOf(data, state);
+  return datasets.map((set) => ({ ...set, data: set.cells.map((cell) => ({ x: symlog(cell.x, panel.linthresh), y: cell.value })) }));
+}
+
+function tooltipTitle(kind, data, state, point) {
+  if (kind === "bars") return `${point.label} steps`;
+  if (kind === "lines") return `Step ${point.raw.x}`;
+  const cell = point.dataset.cells[point.dataIndex];
+  if (kind === "steps") return `${cell.x.toLocaleString()} additional steps`;
+  const unit = channelOf(data, state).unit;
+  return `σ = ${unit === "°" ? `${cell.x}°` : `${cell.x} ${unit}`}`;
+}
+
 function chartConfig(kind, data, state, yMode, datasets, parts) {
   const text = cssToken("--lavender");
   const bars = kind === "bars";
   return {
     type: bars ? "bar" : "line",
     data: bars ? { labels: data.depths.map(String), datasets } : { datasets },
-    plugins: bars ? [continuousBars, overflowLabels, starredMarks] : [crosshair, starredMarks],
+    plugins: bars ? [continuousBars, overflowLabels, starredMarks] : [oodBand, referenceLine, crosshair, starredMarks],
     options: {
       responsive: true,
       maintainAspectRatio: false,
       animation: chartReducedMotion.matches ? false : { duration: 700, easing: "easeOutQuart" },
       layout: { padding: { top: 20 } },
       interaction: bars ? { mode: "index", intersect: false } : { mode: "index", axis: "x", intersect: false },
-      scales: {
-        x: bars
-          ? { grid: { display: false }, ticks: { color: text }, title: { display: true, text: "Rollout length (steps)", color: text } }
-          : { type: "linear", min: 1, grid: { display: false }, ticks: { color: text, stepSize: 5 },
-              title: { display: true, text: "Self-fed step", color: text } },
-        y: yAxis(data, state, yMode),
-      },
+      scales: { x: xAxis(kind, data, state, text), y: yAxis(kind, data, state, yMode) },
       plugins: {
         legend: { display: false },
         tooltip: { enabled: false, external: ({ tooltip }) => renderTooltip(parts, tooltip, channelOf(data, state).unit,
-          (point) => (bars ? `${point.label} steps` : `Step ${point.raw.x}`)) },
+          (point) => tooltipTitle(kind, data, state, point)) },
+        referenceLine: { panel: () => panelOf(data, state), color: cssToken("--lavender"), label: data.reference_label ?? "" },
+        oodBand: { panel: () => panelOf(data, state), fill: withAlpha(cssToken("--cream"), 0.08), color: cssToken("--lavender"), label: data.ood_label ?? "" },
         continuousBars: { edge: withAlpha(cssToken("--cream"), 0.55) },
         overflowLabels: { enabled: yMode === "ratio", color: cssToken("--cream") },
-        starredMarks: { kind, color: "#ffffff" },
+        starredMarks: { kind: bars ? "bars" : "lines", color: "#ffffff" },
         crosshair: { color: withAlpha(cssToken("--cream"), 0.35) },
       },
     },
@@ -433,16 +584,17 @@ function chartConfig(kind, data, state, yMode, datasets, parts) {
 // One chart
 // ---------------------------------------------------------------------------
 async function initChart(root) {
-  const kind = root.dataset.chart, yMode = root.dataset.chartY;
-  if (!["bars", "lines"].includes(kind) || !["ratio", "value"].includes(yMode)) {
-    throw new Error(`figure data-chart="${kind}" data-chart-y="${yMode}": expected bars|lines and ratio|value`);
+  const kind = root.dataset.chart, yMode = root.dataset.chartY ?? "plain";
+  const e1 = ["bars", "lines"].includes(kind), e2 = ["steps", "noise"].includes(kind);
+  if (!(e1 || e2) || (e1 && !["ratio", "value"].includes(yMode)) || (e2 && yMode !== "plain")) {
+    throw new Error(`figure data-chart="${kind}" data-chart-y="${root.dataset.chartY}": expected bars|lines with ratio|value, or steps|noise without`);
   }
   const response = await fetch(root.dataset.chartSrc);
   if (!response.ok) throw new Error(`chart data ${root.dataset.chartSrc}: HTTP ${response.status}`);
   const data = await response.json();
   const parts = buildScaffold(root);
   const state = { world: data.worlds[0].key, channel: data.channels[0].key, view: data.views[0].key };
-  const makeDatasets = () => (kind === "bars" ? barDatasets : lineDatasets)(data, state, yMode);
+  const makeDatasets = () => transformForAxis(kind, data, state, DATASET_BUILDERS[kind](data, state, yMode));
   const makeTable = (datasets) => (kind === "bars" ? barTable : lineTable)(data, state, datasets);
   Chart.defaults.font.family = getComputedStyle(document.body).fontFamily;
   let chart = null;
@@ -457,7 +609,8 @@ async function initChart(root) {
     parts.tableSlot.replaceChildren(makeTable(datasets));
     if (chart) {
       chart.data.datasets = datasets;
-      chart.options.scales.y = yAxis(data, state, yMode);
+      chart.options.scales.x = xAxis(kind, data, state, cssToken("--lavender"));
+      chart.options.scales.y = yAxis(kind, data, state, yMode);
       chart.update();
     }
     renderLegend(parts.legend, chart, datasets);
@@ -467,8 +620,8 @@ async function initChart(root) {
   parts.controls.append(
     segmentedControl("World", data.worlds, state.world, choose("world")),
     segmentedControl("Error", data.channels, state.channel, choose("channel")),
-    segmentedControl("Methods", data.views, state.view, choose("view")),
   );
+  if (data.views.length > 1) parts.controls.append(segmentedControl("Methods", data.views, state.view, choose("view")));
   applyContinuousCorners(parts.controls);
   applyContinuousCorners(parts.frame);
   render();
