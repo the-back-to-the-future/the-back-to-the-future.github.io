@@ -10,6 +10,7 @@
 <script src="assets/js/site.js" defer></script>
 <script src="assets/js/vendor/chart-4.5.1.umd.min.js" defer></script>
 <script src="assets/js/charts.js" defer></script>
+<script src="assets/js/table.js" defer></script>
 </head>
 <body>
 
@@ -211,9 +212,9 @@
     <div class="wrap stack">
       <h2 class="headline">Disturbance-aware Retrieval Planning</h2>
       <div class="stats">
-        <div><span class="stat__value">00</span><span class="stat__label text-slot">Label from Table I</span></div>
-        <div><span class="stat__value">00</span><span class="stat__label text-slot">Label from Table I</span></div>
-        <div><span class="stat__value">00</span><span class="stat__label text-slot">Label from Table I</span></div>
+        <div><span class="stat__value" data-stat="Ours|Clean|Off|success|20|Hard">1.00</span><span class="stat__label">success rate of DARE at 20 objects, hard placement, clean observations</span></div>
+        <div><span class="stat__value" data-stat="Direct retrieval|Clean|–|success|20|Hard">0.10</span><span class="stat__label">success rate of direct retrieval in the same scenes</span></div>
+        <div><span class="stat__value" data-stat="Ours|Noisy|Off|success|10|Easy > Ours|Noisy|On|success|10|Easy">0.00 → 1.00</span><span class="stat__label">success rate under noisy observations at 10 objects, easy placement, without and with retrospective correction</span></div>
       </div>
       <div class="pair">
         <div class="ph ph--16x9" role="img" aria-label="Video placeholder"><span><strong>Video, 16:9</strong>Baseline</span><span class="ph__ctrl" aria-hidden="true"></span></div>
@@ -223,8 +224,8 @@
         <div class="ph ph--2x1" role="img" aria-label="Figure placeholder"><span><strong>Fig. 5</strong>Object retrieval visualization</span></div>
         <figcaption class="caption text-slot">Fig. 5 caption, verbatim from the paper</figcaption>
       </figure>
-      <figure>
-        <div class="ph ph--table" role="img" aria-label="Table placeholder"><span><strong>Table I</strong>Retrieval from cluttered compartments</span></div>
+      <figure class="results-figure" data-table data-table-src="assets/data/table-1.json">
+        <div class="ph ph--table" role="img" aria-label="Table I loads here"><span><strong>Table I</strong>Retrieval from cluttered compartments</span></div>
       </figure>
     </div>
   </section>

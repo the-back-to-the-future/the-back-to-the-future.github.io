@@ -220,6 +220,29 @@ figure { margin: 0; }
 .stat__value { display: block; width: fit-content; margin-inline: auto; color: var(--btf-yellow); font-size: 56px; line-height: 1.0714; font-weight: 600; letter-spacing: -0.005em; }
 .stat__label { display: block; margin-top: 8px; font-size: 14px; color: var(--muted); }
 
+/* Table I (assets/js/table.js): two panels, each a table that scrolls sideways on narrow screens */
+.results-figure { margin: 40px 0 0; }
+.results { display: grid; gap: 40px; }
+.results__panel { min-width: 0; }
+.results__title { margin: 0 0 12px; font-size: 17px; font-weight: 600; line-height: 1.235; }
+.results__scroll { overflow-x: auto; border-radius: 14px; --edge: var(--ph-line); border: 1px solid var(--edge); background: rgba(247, 239, 217, 0.04); scrollbar-width: thin; }
+.results__table { width: 100%; min-width: 860px; border-collapse: separate; border-spacing: 0; font-size: 14px; line-height: 1.43; letter-spacing: -0.016em; font-variant-numeric: tabular-nums; }
+.results__table th, .results__table td { padding: 7px 10px; text-align: right; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+.results__table thead th { font-weight: 600; color: var(--muted); text-align: center; vertical-align: bottom; }
+.results__table thead tr:first-child th { color: var(--cream); }
+.results__table thead th[colspan] { border-left: 1px solid var(--rule); }
+.results__table tbody tr:last-child td, .results__table tbody tr:last-child th { border-bottom: 0; }
+.results__table .results__label { text-align: left; font-weight: 400; color: var(--cream); }
+.results__table td:nth-child(3), .results__table th:nth-child(3) { padding-right: 18px; }
+.results__table td:nth-child(4) { border-left: 1px solid var(--rule); }
+.results__table td:nth-child(10) { border-left: 1px solid var(--rule); }
+/* the paper's shaded rows (the proposed method) and bold cells (the best success rate) */
+.results__row--ours td, .results__row--ours th { background: rgba(255, 201, 27, 0.07); }
+.results__best { font-weight: 700; color: var(--white); }
+.results__caption strong { color: var(--cream); }
+.results__note { display: block; margin-top: 8px; }
+.results-figure .chart__message--error { color: var(--muted); }
+
 /* BibTeX */
 .bib { position: relative; }
 .bib pre { margin: 0; padding: 24px; padding-right: 96px; border-radius: 18px; background: rgba(0, 0, 0, 0.25); --edge: var(--ph-line); border: 1px solid var(--edge); color: var(--cream); white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: 14px; line-height: 1.5; letter-spacing: 0; }
