@@ -11,6 +11,7 @@
 <script src="assets/js/vendor/chart-4.5.1.umd.min.js" defer></script>
 <script src="assets/js/charts.js" defer></script>
 <script src="assets/js/table.js" defer></script>
+<script src="assets/js/corrector.js" defer></script>
 </head>
 <body>
 
@@ -134,7 +135,7 @@
             <span class="step__letter">C</span>
             <h3 class="step__title">Retrospective Correction from Sparse Observations</h3>
             <p class="step__text">Autoregressive rollouts <em>compound small pose errors</em>, and in clutter a small error can shift a contact and change the whole disturbance cascade. Overwriting the prediction with a sparse observation <em>copies sensor noise and leaves velocities incomplete</em>; instead, a <strong>corrector reads the blind rollout and the observed pose discrepancy</strong> and <strong>amends the earliest predicted state</strong>. The dynamics are then <strong>rerun from the amended state</strong>, so the correction propagates through the contact history and a dynamically consistent state is carried into the next cycle.</p>
-            <figure class="step__figure">
+            <figure class="step__figure" data-corrector data-corrector-src="assets/data/corrector.json">
               <div class="fig-card">
                 <img src="assets/media/figures/fig3-correction.png" width="1960" height="1155" alt="Two rows of predicted frames: the blind rollout drifts by step 40, while the corrector uses the observation mismatch at step 15 to amend step 11 and reroll, staying on the true states.">
               </div>
@@ -198,7 +199,7 @@
       <h2 class="headline">Retrospective Correction and Joint Training</h2>
       <figure>
         <div class="fig-card">
-          <img src="assets/media/figures/fig4-tiles.png" width="1960" height="1486" alt="Three rows of four tabletop frames: predicted outlines drift off the objects without correction, inherit noise with direct observation, and stay aligned with the noise-trained corrector.">
+          <img src="assets/media/figures/fig4-tiles.png" width="1960" height="1509" alt="Three rows of four tabletop frames: predicted outlines drift off the objects without correction, inherit noise with direct observation, and stay aligned with the noise-trained corrector.">
         </div>
         <figcaption class="caption"><strong>Fig. 4: Tabletop dynamics prediction under noise.</strong> Outlines in purple, light blue and dark blue indicate predicted object poses in a held-out scene as the target (yellow) pushes through clutter. Uncorrected predictions drift (top), direct observation updates inherit noise (middle), and noise-trained correction maintains alignment with the objects (bottom).</figcaption>
       </figure>
