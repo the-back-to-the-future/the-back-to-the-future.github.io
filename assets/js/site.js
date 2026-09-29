@@ -259,8 +259,29 @@ function initCarousel(root) {
   show(0);
 }
 
+// A link to a section (for example #video from the repository README) lands on it even though
+// the charts, Table I and the correction figure are built after the browser's own jump to the
+// fragment and push the section down by thousands of pixels: while the page's height still
+// changes in its first seconds, the target is scrolled back into view, until the reader scrolls.
+const HASH_SETTLE_MS = 5000;
+const READER_INPUT = ["wheel", "touchstart", "keydown", "mousedown"];
+function initHashLanding() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  const target = id ? document.getElementById(id) : null;
+  if (!target) return;
+  const observer = new ResizeObserver(() => target.scrollIntoView({ block: "start" }));
+  const stop = () => {
+    observer.disconnect();
+    READER_INPUT.forEach((type) => removeEventListener(type, stop));
+  };
+  observer.observe(document.body);
+  READER_INPUT.forEach((type) => addEventListener(type, stop, { passive: true }));
+  setTimeout(stop, HASH_SETTLE_MS);
+}
+
 document.querySelectorAll("[data-carousel]").forEach(initCarousel);
 document.querySelectorAll("[data-hero-video]").forEach(initHeroVideo);
 document.querySelectorAll("[data-strip]").forEach(initStrip);
 initSteps(Array.from(document.querySelectorAll(".step")));
 document.querySelectorAll("[data-copy]").forEach(initCopy);
+initHashLanding();
