@@ -124,6 +124,9 @@ figure { margin: 0; }
 .hero__authors { margin: 6px 0 0; color: var(--muted); }
 .hero__links { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px; }
 .pill { font-size: 14px; padding: 8px 18px; border-radius: 999px; --edge: rgba(247, 239, 217, 0.3); border: 1px solid var(--edge); color: var(--muted); cursor: not-allowed; }
+.pill--link { color: var(--cream); cursor: pointer; text-decoration: none; }
+.pill--link:hover { background: rgba(247, 239, 217, 0.1); }
+.supp-video { display: block; width: 100%; height: auto; border-radius: 18px; background: #ffffff; }
 .hero__media { margin-top: 64px; }
 /* Hero video: wider than the page column so its three views read, chapter cards under it */
 .hero-video { --hero-video-w: min(1440px, 100vw - 2 * var(--gutter)); width: var(--hero-video-w); margin-inline: calc((100% - var(--hero-video-w)) / 2); text-align: left; }

@@ -44,7 +44,7 @@
     <p class="hero__authors">Anonymous Submission</p>
     <div class="hero__links">
       <span class="pill" aria-disabled="true">Paper (coming soon)</span>
-      <span class="pill" aria-disabled="true">Video (coming soon)</span>
+      <a class="pill pill--link" href="#video">Video</a>
       <span class="pill" aria-disabled="true">Code (coming soon)</span>
     </div>
     <div class="hero__media hero-video" data-hero-video>
@@ -248,6 +248,18 @@
     </div>
   </section>
 
+  <section class="theme-night" id="video">
+    <div class="wrap">
+      <h2 class="headline headline--small">Supplementary Video</h2>
+      <figure>
+        <video class="supp-video" controls preload="none" playsinline poster="assets/media/supplementary-video-poster.jpg" width="1920" height="1080">
+          <source src="assets/media/supplementary-video.mp4" type="video/mp4">
+        </video>
+        <figcaption class="caption">The supplementary video submitted with the paper: the problem, the method, and the experiments, narrated with captions (2 min 57 s).</figcaption>
+      </figure>
+    </div>
+  </section>
+
   <section class="theme-dusk" id="bibtex">
     <div class="wrap">
       <h2 class="headline headline--small">BibTeX</h2>
@@ -265,7 +277,7 @@
 </main>
 
 <footer class="foot theme-night">
-  <div class="wrap text-slot">Footer line</div>
+  <div class="wrap">Anonymous authors · ICRA 2027 submission</div>
 </footer>
 
 </body>
