@@ -205,9 +205,10 @@ figure { margin: 0; }
 .fig-card--panels { display: none; }
 .fig-card--panels img + img { margin-top: 12px; }
 .method__overview { margin: 0 0 56px; }
-.method--steps-only { grid-template-columns: 1fr; }
-.method--steps-only .steps { max-width: var(--col-text); }
-.method--steps-only .step { min-height: 0; }
+/* the pinned figure beside the steps: the pipeline cropped to the part the active step describes (each step names its focus in data-focus) */
+.pipeline-focus { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: var(--focus, 0%) 50%; transition: object-position 0.6s ease; }
+@media (prefers-reduced-motion: reduce) { .pipeline-focus { transition: none; } }
+.trio__use { display: block; margin-top: 4px; font-weight: 400; font-size: 14px; line-height: 1.43; color: var(--muted); }
 .step__figure { margin: 20px 0 0; }
 
 /* Figure grids */
@@ -216,7 +217,7 @@ figure { margin: 0; }
 .trio figcaption { margin-top: 12px; font-weight: 600; }
 
 /* Method: pinned pipeline beside the steps */
-.method { display: grid; grid-template-columns: 7fr 5fr; gap: 56px; align-items: start; }
+.method { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
 .method__fig { position: sticky; top: calc(var(--bar-h) + 40px); }
 .steps { list-style: none; margin: 0; padding: 0; }
 .step { min-height: 420px; padding: 8px 0 48px 20px; border-left: 2px solid var(--rule); transition: border-color 0.3s; }

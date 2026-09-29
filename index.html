@@ -119,19 +119,23 @@
         </div>
         <figcaption class="caption"><strong>Fig. 2: Pipeline Overview.</strong> Given object geometry and the current scene state, DARE propagates action-conditioned interactions over an object graph to predict scene evolution under candidate target motions. The resulting rollouts capture direct and indirect disturbances to surrounding objects, enabling the planner to select a retrieval trajectory that balances goal progress against collateral disturbance.</figcaption>
       </figure>
-      <div class="method method--steps-only">
+      <div class="method" data-method>
+        <figure class="method__fig" aria-hidden="true">
+          <div class="fig-card"><img class="pipeline-focus" src="assets/media/figures/fig2-pipeline-2x.png" width="3920" height="904" alt=""></div>
+          <figcaption class="caption">The part of Fig. 2 the step beside it describes.</figcaption>
+        </figure>
         <ol class="steps">
-          <li class="step">
+          <li class="step" data-focus="0%">
             <span class="step__letter">A</span>
             <h3 class="step__title">Problem Statement</h3>
             <p class="step__text">A grasped target is retrieved from a densely cluttered compartment where <em>limited overhead clearance rules out lifting</em>, so retrieval <strong>requires contact</strong> that can displace, topple, or eject bystanders. The robot commands the target’s planar translation, tilt, and yaw, while bystanders move only through contact, whose dynamics are <strong>approximated by a learned relational model</strong>. The planner seeks motions that <strong>make progress toward the opening while limiting bystander displacement, tilt, and yaw</strong>.</p>
           </li>
-          <li class="step">
+          <li class="step" data-focus="30%">
             <span class="step__letter">B</span>
             <h3 class="step__title">Relational Dynamics Prediction</h3>
             <p class="step__text">Each object is <strong>one graph node</strong> carrying its mass, inertia, and a <strong>learned descriptor of its convex collision pieces</strong>, so the graph size does not depend on mesh resolution. A propagation network passes messages along proximity edges rebuilt after every predicted step, <strong>relaying the target’s push through intermediate objects</strong>; compartment faces are static nodes, so object–wall contact uses the same computation. The command enters <em>only on edges sent by the target</em>, so indirect motion must be explained through relational paths.</p>
           </li>
-          <li class="step">
+          <li class="step" data-focus="69%">
             <span class="step__letter">C</span>
             <h3 class="step__title">Retrospective Correction from Sparse Observations</h3>
             <p class="step__text">Autoregressive rollouts <em>compound small pose errors</em>, and in clutter a small error can shift a contact and change the whole disturbance cascade. Overwriting the prediction with a sparse observation <em>copies sensor noise and leaves velocities incomplete</em>; instead, a <strong>corrector reads the blind rollout and the observed pose discrepancy</strong> and <strong>amends the earliest predicted state</strong>. The dynamics are then <strong>rerun from the amended state</strong>, so the correction propagates through the contact history and a dynamically consistent state is carried into the next cycle.</p>
@@ -142,12 +146,12 @@
               <figcaption class="caption"><strong>Fig. 3: Retrospective correction for long-horizon prediction.</strong> The corrector combines prior predictions with the observation mismatch at t<sub>15</sub> (yellow) to estimate a corrected state t&#771;<sub>11</sub>, the first step after the last observation t<sub>10</sub>. Rerolling from it propagates the correction through the learned dynamics and initializes the next cycle, mitigating error drift.</figcaption>
             </figure>
           </li>
-          <li class="step">
+          <li class="step" data-focus="69%">
             <span class="step__letter">D</span>
             <h3 class="step__title">Future-aware Joint Predictor–Corrector Learning</h3>
             <p class="step__text">Predictor and corrector are <strong>trained jointly in one backward pass</strong> through the blind rollout, the amendment, and the rerollout. The corrected rollout is also scored <em>beyond the observation</em>, so an amendment is rewarded <strong>only if the future it produces stays accurate</strong>. The predictor thus learns rollouts whose errors are <strong>correctable from sparse observations</strong>, not only accurate on their own.</p>
           </li>
-          <li class="step">
+          <li class="step" data-focus="100%">
             <span class="step__letter">E</span>
             <h3 class="step__title">Disturbance-Aware Retrieval Planning</h3>
             <p class="step__text">Rather than rejecting all contact, the planner <strong>scores the predicted consequences of each candidate motion</strong> and excludes candidates that <em>exceed bystander displacement or tilt tolerances</em>. Its cost trades the target’s <strong>progress toward the opening</strong> against bystanders’ displacement, tilt, and yaw; spline-shaped candidates are refined with <strong>MPPI-style weighting</strong>, and the lowest-cost admissible plan is executed. Each executed segment ends at the next observation, so <strong>every planning cycle is also a correction cycle</strong>.</p>
@@ -162,9 +166,9 @@
       <p class="eyebrow">Experiments</p>
       <h2 class="headline">Experiments Setup</h2>
       <div class="trio">
-        <figure><div class="fig-card fig-card--square"><img src="assets/media/figures/world-puck-table.png" width="1200" height="1200" alt="Five pucks on a flat table with the pusher above them."></div><figcaption>Planar puck table</figcaption></figure>
-        <figure><div class="fig-card fig-card--square"><img src="assets/media/figures/world-robocasa-tabletop.png" width="1200" height="1200" alt="Household objects on a tabletop with the pusher beside them."></div><figcaption>RoboCasa tabletop scenes</figcaption></figure>
-        <figure><div class="fig-card fig-card--square"><img src="assets/media/figures/world-kitchen-cabinets.png" width="1200" height="1200" alt="A kitchen cabinet compartment packed with bottles, the Panda arm reaching in."></div><figcaption>RoboCasa kitchen cabinets</figcaption></figure>
+        <figure><div class="fig-card fig-card--square"><img src="assets/media/figures/world-puck-table.png" width="1200" height="1200" alt="Five pucks on a flat table with the pusher above them."></div><figcaption>Planar puck table<span class="trio__use">Dynamics prediction (E1) and joint training (E2).</span></figcaption></figure>
+        <figure><div class="fig-card fig-card--square"><img src="assets/media/figures/world-robocasa-tabletop.png" width="1200" height="1200" alt="Household objects on a tabletop with the pusher beside them."></div><figcaption>RoboCasa tabletop scenes<span class="trio__use">Dynamics prediction on seen and unseen objects (E1), joint training and correction under noise (E2, Fig. 4).</span></figcaption></figure>
+        <figure><div class="fig-card fig-card--square"><img src="assets/media/figures/world-kitchen-cabinets.png" width="1200" height="1200" alt="A kitchen cabinet compartment packed with bottles, the Panda arm reaching in."></div><figcaption>RoboCasa kitchen cabinets<span class="trio__use">Dynamics prediction (E1), correction under noise (E2), and every retrieval experiment (E3, Table I).</span></figcaption></figure>
       </div>
     </div>
   </section>

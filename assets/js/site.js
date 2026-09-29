@@ -120,6 +120,9 @@ function initSteps(steps) {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         steps.forEach((s) => s.classList.toggle("is-active", s === entry.target));
+        // the pinned figure follows the active step's focus (data-focus, an object-position)
+        const method = entry.target.closest("[data-method]");
+        if (method && entry.target.dataset.focus) method.style.setProperty("--focus", entry.target.dataset.focus);
       }
     });
   }, { rootMargin: "-45% 0px -45% 0px" });
