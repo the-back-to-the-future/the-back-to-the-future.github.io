@@ -142,6 +142,8 @@ figure { margin: 0; }
 @media (prefers-reduced-motion: reduce) { .chapter { transition: none; } }
 
 /* Carousel: one slide at a time, arrows and the slide's name above it */
+/* a carousel is a nested section; the page-section padding must not apply to it */
+.carousel { padding-block: 0; }
 .carousel__bar { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
 .carousel__arrow { width: 40px; height: 40px; border-radius: 999px; --edge: var(--rule); border: 1px solid var(--edge); background: rgba(247, 239, 217, 0.08); color: var(--cream); font: inherit; font-size: 22px; line-height: 1; cursor: pointer; }
 .carousel__arrow:hover { background: rgba(247, 239, 217, 0.16); }
