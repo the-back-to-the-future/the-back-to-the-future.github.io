@@ -77,7 +77,7 @@ section { padding-block: var(--pad-section); }
 .step__text { margin: 0; }
 #abstract .intro { text-align: justify; hyphens: auto; }
 .intro strong, .step__text strong { font-weight: 600; color: #ffffff; }
-.caption { margin: 16px 0 0; max-width: var(--col-text); font-size: 14px; line-height: 1.43; letter-spacing: -0.016em; color: var(--muted); }
+.caption { margin: 16px 0 0; max-width: var(--col-text); font-size: 21px; line-height: 1.381; letter-spacing: 0.011em; color: var(--muted); }
 .text-slot { color: var(--muted); font-style: italic; }
 
 /* Media placeholders */
@@ -289,6 +289,7 @@ figure { margin: 0; }
   .headline { font-size: 32px; line-height: 1.125; letter-spacing: 0.004em; margin-bottom: 40px; }
   .headline--small { font-size: 32px; line-height: 1.125; letter-spacing: 0.004em; }
   .intro { font-size: 19px; line-height: 1.421; letter-spacing: 0.012em; }
+  .caption { font-size: 19px; line-height: 1.421; letter-spacing: 0.012em; }
   .step__title { font-size: 21px; line-height: 1.1905; letter-spacing: 0.011em; }
   .pair, .trio, .stats { grid-template-columns: 1fr; }
   .stat__value { font-size: 40px; }
