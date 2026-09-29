@@ -95,11 +95,15 @@
       <p class="eyebrow">Overview</p>
       <h2 class="headline">Disturbance-aware retrieval</h2>
       <figure>
-        <div class="pair">
-          <div class="ph ph--4x3" role="img" aria-label="Figure placeholder"><span><strong>Fig. 1a</strong>Collision Avoidance</span></div>
-          <div class="ph ph--4x3" role="img" aria-label="Figure placeholder"><span><strong>Fig. 1b</strong>Direct Retrieval</span></div>
+        <div class="fig-card fig-card--wide">
+          <img src="assets/media/figures/fig1-teaser.png" width="1960" height="504" alt="Three views of the same cluttered shelf: collision avoidance leaves the bottle blocked, direct retrieval knocks a neighbor over, and our method pulls the bottle out with controlled contact.">
         </div>
-        <figcaption class="caption text-slot">Fig. 1 caption, verbatim from the paper</figcaption>
+        <div class="fig-card fig-card--panels">
+          <img src="assets/media/figures/fig1-teaser-a.png" width="1960" height="1541" alt="Collision avoidance: the target is boxed in by its neighbors, so no contact-free path exists.">
+          <img src="assets/media/figures/fig1-teaser-b.png" width="1960" height="1541" alt="Direct retrieval: the bottle is pulled straight out and a neighboring bottle topples.">
+          <img src="assets/media/figures/fig1-teaser-c.png" width="1960" height="1541" alt="Ours: the bottle follows a curved route and every neighbor stays upright.">
+        </div>
+        <figcaption class="caption"><strong>Fig. 1: Disturbance-aware retrieval.</strong> (a) Collision avoidance leaves the target blocked. (b) Direct retrieval topples a neighboring object. (c) Our method predicts contact-induced disturbance to plan retrieval through controlled contact, preserving stability of surrounding objects.</figcaption>
       </figure>
     </div>
   </section>
@@ -108,11 +112,13 @@
     <div class="wrap">
       <p class="eyebrow">Method</p>
       <h2 class="headline">Pipeline Overview</h2>
-      <div class="method">
-        <figure class="method__fig">
-          <div class="ph ph--4x3" role="img" aria-label="Figure placeholder"><span><strong>Fig. 2</strong>Pipeline</span></div>
-          <figcaption class="caption text-slot">Fig. 2 caption, verbatim from the paper</figcaption>
-        </figure>
+      <figure class="method__overview">
+        <div class="fig-card">
+          <img src="assets/media/figures/fig2-pipeline.png" srcset="assets/media/figures/fig2-pipeline.png 1960w, assets/media/figures/fig2-pipeline-2x.png 3920w" sizes="(max-width: 1068px) 100vw, 980px" width="1960" height="452" alt="Pipeline: object geometry and the scene state enter an interaction graph, action propagation and prediction produce rollouts of candidate actions, and the planner picks the retrieval path.">
+        </div>
+        <figcaption class="caption"><strong>Fig. 2: Pipeline Overview.</strong> Given object geometry and the current scene state, DARE propagates action-conditioned interactions over an object graph to predict scene evolution under candidate target motions. The resulting rollouts capture direct and indirect disturbances to surrounding objects, enabling the planner to select a retrieval trajectory that balances goal progress against collateral disturbance.</figcaption>
+      </figure>
+      <div class="method method--steps-only">
         <ol class="steps">
           <li class="step">
             <span class="step__letter">A</span>
@@ -128,9 +134,11 @@
             <span class="step__letter">C</span>
             <h3 class="step__title">Retrospective Correction from Sparse Observations</h3>
             <p class="step__text">Autoregressive rollouts <em>compound small pose errors</em>, and in clutter a small error can shift a contact and change the whole disturbance cascade. Overwriting the prediction with a sparse observation <em>copies sensor noise and leaves velocities incomplete</em>; instead, a <strong>corrector reads the blind rollout and the observed pose discrepancy</strong> and <strong>amends the earliest predicted state</strong>. The dynamics are then <strong>rerun from the amended state</strong>, so the correction propagates through the contact history and a dynamically consistent state is carried into the next cycle.</p>
-            <figure>
-              <div class="ph ph--4x3" role="img" aria-label="Figure placeholder"><span><strong>Fig. 3</strong>Retrospective correction</span></div>
-              <figcaption class="caption text-slot">Fig. 3 caption, verbatim from the paper</figcaption>
+            <figure class="step__figure">
+              <div class="fig-card">
+                <img src="assets/media/figures/fig3-correction.png" width="1960" height="1155" alt="Two rows of predicted frames: the blind rollout drifts by step 40, while the corrector uses the observation mismatch at step 15 to amend step 11 and reroll, staying on the true states.">
+              </div>
+              <figcaption class="caption"><strong>Fig. 3: Retrospective correction for long-horizon prediction.</strong> The corrector combines prior predictions with the observation mismatch at t<sub>15</sub> (yellow) to estimate a corrected state t&#771;<sub>11</sub>, the first step after the last observation t<sub>10</sub>. Rerolling from it propagates the correction through the learned dynamics and initializes the next cycle, mitigating error drift.</figcaption>
             </figure>
           </li>
           <li class="step">
@@ -153,9 +161,9 @@
       <p class="eyebrow">Experiments</p>
       <h2 class="headline">Experiments Setup</h2>
       <div class="trio">
-        <figure><div class="ph ph--1x1" role="img" aria-label="Image placeholder"><span><strong>Image, 1:1</strong>World 1</span></div><figcaption>Planar puck table</figcaption></figure>
-        <figure><div class="ph ph--1x1" role="img" aria-label="Image placeholder"><span><strong>Image, 1:1</strong>World 2</span></div><figcaption>RoboCasa tabletop scenes</figcaption></figure>
-        <figure><div class="ph ph--1x1" role="img" aria-label="Image placeholder"><span><strong>Image, 1:1</strong>World 3</span></div><figcaption>RoboCasa kitchen cabinets</figcaption></figure>
+        <figure><div class="fig-card fig-card--square"><img src="assets/media/figures/world-puck-table.png" width="1200" height="1200" alt="Five pucks on a flat table with the pusher above them."></div><figcaption>Planar puck table</figcaption></figure>
+        <figure><div class="fig-card fig-card--square"><img src="assets/media/figures/world-robocasa-tabletop.png" width="1200" height="1200" alt="Household objects on a tabletop with the pusher beside them."></div><figcaption>RoboCasa tabletop scenes</figcaption></figure>
+        <figure><div class="fig-card fig-card--square"><img src="assets/media/figures/world-kitchen-cabinets.png" width="1200" height="1200" alt="A kitchen cabinet compartment packed with bottles, the Panda arm reaching in."></div><figcaption>RoboCasa kitchen cabinets</figcaption></figure>
       </div>
     </div>
   </section>
@@ -189,8 +197,10 @@
     <div class="wrap stack">
       <h2 class="headline">Retrospective Correction and Joint Training</h2>
       <figure>
-        <div class="ph ph--2x1" role="img" aria-label="Figure placeholder"><span><strong>Fig. 4</strong>Tabletop dynamics prediction under noise</span></div>
-        <figcaption class="caption text-slot">Fig. 4 caption, verbatim from the paper</figcaption>
+        <div class="fig-card">
+          <img src="assets/media/figures/fig4-tiles.png" width="1960" height="1486" alt="Three rows of four tabletop frames: predicted outlines drift off the objects without correction, inherit noise with direct observation, and stay aligned with the noise-trained corrector.">
+        </div>
+        <figcaption class="caption"><strong>Fig. 4: Tabletop dynamics prediction under noise.</strong> Outlines in purple, light blue and dark blue indicate predicted object poses in a held-out scene as the target (yellow) pushes through clutter. Uncorrected predictions drift (top), direct observation updates inherit noise (middle), and noise-trained correction maintains alignment with the objects (bottom).</figcaption>
       </figure>
       <section class="carousel" data-carousel aria-roledescription="carousel" aria-label="Joint training and correction charts">
         <div class="carousel__bar">

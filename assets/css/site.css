@@ -198,6 +198,19 @@ figure { margin: 0; }
 .strip-nav button { width: 36px; height: 36px; border-radius: 999px; border: 0; background: rgba(247, 239, 217, 0.12); color: var(--cream); font: inherit; font-size: 17px; line-height: 1; cursor: pointer; }
 .strip-nav button:disabled { opacity: 0.35; cursor: default; }
 
+/* Paper figures on their light canvas: a white card whose edges feather into the section
+   (a CSS mask fades the outer band), so the figure glows out of the page rather than sitting as a rectangle */
+.fig-card { --feather: clamp(24px, 5vw, 56px); padding: var(--feather); background: #ffffff; -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--feather), #000 calc(100% - var(--feather)), transparent), linear-gradient(to bottom, transparent, #000 var(--feather), #000 calc(100% - var(--feather)), transparent); mask-image: linear-gradient(to right, transparent, #000 var(--feather), #000 calc(100% - var(--feather)), transparent), linear-gradient(to bottom, transparent, #000 var(--feather), #000 calc(100% - var(--feather)), transparent); -webkit-mask-composite: source-in; mask-composite: intersect; }
+.fig-card img { display: block; width: 100%; height: auto; }
+.fig-card--square { padding: 0; --feather: clamp(20px, 4vw, 40px); }
+.fig-card--panels { display: none; }
+.fig-card--panels img + img { margin-top: 12px; }
+.method__overview { margin: 0 0 56px; }
+.method--steps-only { grid-template-columns: 1fr; }
+.method--steps-only .steps { max-width: var(--col-text); }
+.method--steps-only .step { min-height: 0; }
+.step__figure { margin: 20px 0 0; }
+
 /* Figure grids */
 .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -278,6 +291,8 @@ figure { margin: 0; }
   .pair, .trio, .stats { grid-template-columns: 1fr; }
   .stat__value { font-size: 40px; }
   .chapters { grid-template-columns: repeat(2, 1fr); }
+  .fig-card--wide { display: none; }
+  .fig-card--panels { display: block; }
   /* the phone cut's frame, one view over two stats rows (its render sidecar's frame_px) */
   .hero-video__player { aspect-ratio: 1280 / 1296; }
 }
