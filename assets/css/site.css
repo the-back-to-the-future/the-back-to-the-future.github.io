@@ -77,7 +77,7 @@ section { padding-block: var(--pad-section); }
 .step__text { margin: 0; }
 #abstract .intro { text-align: justify; hyphens: auto; }
 .intro strong, .step__text strong { font-weight: 600; color: #ffffff; }
-.caption { margin: 16px 0 0; max-width: var(--col-text); font-size: 21px; line-height: 1.381; letter-spacing: 0.011em; color: var(--muted); }
+.caption { margin: 16px 0 0; font-size: 21px; line-height: 1.381; letter-spacing: 0.011em; color: var(--muted); }
 .text-slot { color: var(--muted); font-style: italic; }
 
 /* Media placeholders */
