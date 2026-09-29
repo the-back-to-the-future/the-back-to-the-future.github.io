@@ -394,16 +394,18 @@ function correctorTipContent(data, episode, state, target) {
   }
   if (kind === "mismatch") {
     const mismatch = episode.cycles[state.cycle].mismatch_cm;
-    return [correctorEl("p", "chart-tip__title", `Mismatch at step ${step}: the record minus the blind frame`),
-            ...mismatch.map(([dx, dy], i) => correctorTipRow(`Puck ${i + 1}`, cm(Math.hypot(dx, dy)), false))];
+    return [correctorEl("p", "chart-tip__title", `Mismatch at step ${step}, record minus blind frame`),
+            correctorEl("p", "chart-tip__detail", mismatch.map(([dx, dy], i) => `${i + 1}: ${cm(Math.hypot(dx, dy))}`).join(" \u00b7 "))];
   }
   const which = row === "corrected" ? "with the corrector" : row === "start" ? "the carried state" : "without the corrector";
   const errors = correctorErrors(data, episode, state, row === "start" ? "blind" : row, step);
-  const rows = errors.map((error, i) => correctorTipRow(`Puck ${i + 1}`, cm(error), false));
+  // one compact line: every puck's error, then the RMSE on the late frames
+  const parts = [correctorEl("p", "chart-tip__title", `Step ${step}, ${which}`),
+                 correctorEl("p", "chart-tip__detail", "puck error " + errors.map((error, i) => `${i + 1}: ${cm(error)}`).join(" \u00b7 "))];
   if (target.dataset.late === "true") {
-    rows.push(correctorTipRow("Translation RMSE", cm(correctorRmse(data, episode, state, row, step)), true));
+    parts.push(correctorTipRow("Translation RMSE", cm(correctorRmse(data, episode, state, row, step)), true));
   }
-  return [correctorEl("p", "chart-tip__title", `Step ${step}, ${which}: translation error`), ...rows];
+  return parts;
 }
 
 function correctorPlaceTip(root, tip, clientX, clientY) {

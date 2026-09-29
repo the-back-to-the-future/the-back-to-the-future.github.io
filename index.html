@@ -139,12 +139,6 @@
             <span class="step__letter">C</span>
             <h3 class="step__title">Retrospective Correction from Sparse Observations</h3>
             <p class="step__text">Autoregressive rollouts <em>compound small pose errors</em>, and in clutter a small error can shift a contact and change the whole disturbance cascade. Overwriting the prediction with a sparse observation <em>copies sensor noise and leaves velocities incomplete</em>; instead, a <strong>corrector reads the blind rollout and the observed pose discrepancy</strong> and <strong>amends the earliest predicted state</strong>. The dynamics are then <strong>rerun from the amended state</strong>, so the correction propagates through the contact history and a dynamically consistent state is carried into the next cycle.</p>
-            <figure class="step__figure" data-corrector data-corrector-src="assets/data/corrector.json">
-              <div class="fig-card">
-                <img src="assets/media/figures/fig3-correction.png" width="1960" height="1155" alt="Two rows of predicted frames: the blind rollout drifts by step 40, while the corrector uses the observation mismatch at step 15 to amend step 11 and reroll, staying on the true states.">
-              </div>
-              <figcaption class="caption"><strong>Fig. 3: Retrospective correction for long-horizon prediction.</strong> The corrector combines prior predictions with the observation mismatch at t<sub>15</sub> (yellow) to estimate a corrected state t&#771;<sub>11</sub>, the first step after the last observation t<sub>10</sub>. Rerolling from it propagates the correction through the learned dynamics and initializes the next cycle, mitigating error drift.</figcaption>
-            </figure>
           </li>
           <li class="step" data-focus="69%">
             <span class="step__letter">D</span>
@@ -160,6 +154,7 @@
       </div>
     </div>
   </section>
+
 
   <section class="theme-night" id="experiments">
     <div class="wrap">
@@ -201,6 +196,12 @@
   <section class="theme-night" id="correction">
     <div class="wrap stack">
       <h2 class="headline">Retrospective Correction and Joint Training</h2>
+      <figure class="method__interactive" data-corrector data-corrector-src="assets/data/corrector.json">
+        <div class="fig-card">
+          <img src="assets/media/figures/fig3-correction.png" width="1960" height="1155" alt="Two rows of predicted frames: the blind rollout drifts by step 40, while the corrector uses the observation mismatch at step 15 to amend step 11 and reroll, staying on the true states.">
+        </div>
+        <figcaption class="caption"><strong>Fig. 3: Retrospective correction for long-horizon prediction.</strong> The corrector combines prior predictions with the observation mismatch at t<sub>15</sub> (yellow) to estimate a corrected state t&#771;<sub>11</sub>, the first step after the last observation t<sub>10</sub>. Rerolling from it propagates the correction through the learned dynamics and initializes the next cycle, mitigating error drift.</figcaption>
+      </figure>
       <figure>
         <div class="fig-card">
           <img src="assets/media/figures/fig4-tiles.png" width="1960" height="1509" alt="Three rows of four tabletop frames: predicted outlines drift off the objects without correction, inherit noise with direct observation, and stay aligned with the noise-trained corrector.">
