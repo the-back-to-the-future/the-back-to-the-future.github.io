@@ -23,7 +23,7 @@
   --col-text: 692px;
   --gutter: 22px;
   --bar-h: 52px;
-  --pad-section: 160px;
+  --pad-section: 80px;
 }
 
 /* Section themes set the colours their children read; no section paints a background, so the page's
@@ -322,7 +322,7 @@ figure { margin: 0; }
   .bar__links { display: none; position: absolute; top: calc(var(--bar-h) - 4px); right: var(--gutter); flex-direction: column; gap: 0; min-width: 200px; padding: 8px; border-radius: 14px; --edge: rgba(255, 255, 255, 0.18); border: 1px solid var(--edge); background: var(--navy); }
   .bar__links[data-open] { display: flex; }
   .bar__links a { padding: 10px 12px; font-size: 14px; }
-  :root { --col: 692px; --pad-section: 128px; }
+  :root { --col: 692px; --pad-section: 64px; }
   .hero__name { font-size: 64px; line-height: 1.0625; letter-spacing: -0.009em; }
   .hero__subtitle { font-size: 24px; line-height: 1.1667; letter-spacing: 0.009em; }
   .eyebrow { font-size: 21px; line-height: 1.1905; letter-spacing: 0.011em; }
@@ -334,7 +334,7 @@ figure { margin: 0; }
 }
 
 @media (max-width: 734px) {
-  :root { --gutter: 16px; --pad-section: 96px; }
+  :root { --gutter: 16px; --pad-section: 48px; }
   .bar__brand { font-size: 19px; }
   .hero { padding-top: 80px; }
   .hero__name { font-size: 48px; line-height: 1.0833; letter-spacing: -0.003em; }
