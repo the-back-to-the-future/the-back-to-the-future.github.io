@@ -1,0 +1,517 @@
+{
+ "rule": "Table I's rule: the target retrieved, no bystander out by the run's own count, none toppled (tilt gained at least 90° with a centre-of-mass drop)",
+ "methods": [
+  {
+   "row": "goal",
+   "label": "Direct retrieval"
+  },
+  {
+   "row": "avoid",
+   "label": "Collision avoidance"
+  },
+  {
+   "row": "ours_constraint",
+   "label": "Ours w/o dist. obj."
+  },
+  {
+   "row": "ours_full",
+   "label": "Ours"
+  }
+ ],
+ "groups": [
+  {
+   "group": "gap",
+   "label": "Ours succeeds where both baselines fail"
+  },
+  {
+   "group": "no-gap",
+   "label": "Ours and a baseline both succeed"
+  },
+  {
+   "group": "everyone-fails",
+   "label": "Every method fails"
+  }
+ ],
+ "scenes": [
+  {
+   "scene": 905,
+   "set": "u",
+   "group": "gap",
+   "cell": {
+    "objects": 10,
+    "difficulty": "hard"
+   },
+   "target": {
+    "rel": "objaverse/wine/wine_12",
+    "category": "wine",
+    "name": "wine"
+   },
+   "video": {
+    "files": {
+     "video_full": "highlight-905-2560.mp4",
+     "video_small": "highlight-905-1280.mp4",
+     "poster": "highlight-905-poster.jpg"
+    },
+    "frame_px": [
+     2560,
+     1504
+    ],
+    "seconds": 9.533
+   },
+   "rows": [
+    {
+     "row": "goal",
+     "success": false,
+     "verdict": "Unsuccessful"
+    },
+    {
+     "row": "avoid",
+     "success": false,
+     "verdict": "Unsuccessful"
+    },
+    {
+     "row": "ours_constraint",
+     "success": true,
+     "verdict": "Successful"
+    },
+    {
+     "row": "ours_full",
+     "success": true,
+     "verdict": "Successful"
+    }
+   ]
+  },
+  {
+   "scene": 947,
+   "set": "u20",
+   "group": "gap",
+   "cell": {
+    "objects": 20,
+    "difficulty": "hard"
+   },
+   "target": {
+    "rel": "objaverse/wine/wine_12",
+    "category": "wine",
+    "name": "wine"
+   },
+   "video": {
+    "files": {
+     "video_full": "highlight-947-2560.mp4",
+     "video_small": "highlight-947-1280.mp4",
+     "poster": "highlight-947-poster.jpg"
+    },
+    "frame_px": [
+     2560,
+     1504
+    ],
+    "seconds": 13.9
+   },
+   "rows": [
+    {
+     "row": "goal",
+     "success": false,
+     "verdict": "Unsuccessful"
+    },
+    {
+     "row": "avoid",
+     "success": false,
+     "verdict": "Unsuccessful"
+    },
+    {
+     "row": "ours_constraint",
+     "success": true,
+     "verdict": "Successful"
+    },
+    {
+     "row": "ours_full",
+     "success": true,
+     "verdict": "Successful"
+    }
+   ]
+  },
+  {
+   "scene": 926,
+   "set": "u",
+   "group": "gap",
+   "cell": {
+    "objects": 5,
+    "difficulty": "hard"
+   },
+   "target": {
+    "rel": "objaverse/wine/wine_8",
+    "category": "wine",
+    "name": "wine"
+   },
+   "video": {
+    "files": {
+     "video_full": "highlight-926-2560.mp4",
+     "video_small": "highlight-926-1280.mp4",
+     "poster": "highlight-926-poster.jpg"
+    },
+    "frame_px": [
+     2560,
+     1504
+    ],
+    "seconds": 5.533
+   },
+   "rows": [
+    {
+     "row": "goal",
+     "success": false,
+     "verdict": "Unsuccessful"
+    },
+    {
+     "row": "avoid",
+     "success": false,
+     "verdict": "Unsuccessful"
+    },
+    {
+     "row": "ours_constraint",
+     "success": true,
+     "verdict": "Successful"
+    },
+    {
+     "row": "ours_full",
+     "success": true,
+     "verdict": "Successful"
+    }
+   ]
+  },
+  {
+   "scene": 914,
+   "set": "u",
+   "group": "gap",
+   "cell": {
+    "objects": 10,
+    "difficulty": "easy"
+   },
+   "target": {
+    "rel": "objaverse/water_bottle/water_bottle_9",
+    "category": "water_bottle",
+    "name": "water bottle"
+   },
+   "video": {
+    "files": {
+     "video_full": "highlight-914-2560.mp4",
+     "video_small": "highlight-914-1280.mp4",
+     "poster": "highlight-914-poster.jpg"
+    },
+    "frame_px": [
+     2560,
+     1504
+    ],
+    "seconds": 9.167
+   },
+   "rows": [
+    {
+     "row": "goal",
+     "success": false,
+     "verdict": "Unsuccessful"
+    },
+    {
+     "row": "avoid",
+     "success": false,
+     "verdict": "Unsuccessful"
+    },
+    {
+     "row": "ours_constraint",
+     "success": true,
+     "verdict": "Successful"
+    },
+    {
+     "row": "ours_full",
+     "success": true,
+     "verdict": "Successful"
+    }
+   ]
+  },
+  {
+   "scene": 955,
+   "set": "u20",
+   "group": "gap",
+   "cell": {
+    "objects": 20,
+    "difficulty": "hard"
+   },
+   "target": {
+    "rel": "objaverse/wine/wine_10",
+    "category": "wine",
+    "name": "wine"
+   },
+   "video": {
+    "files": {
+     "video_full": "highlight-955-2560.mp4",
+     "video_small": "highlight-955-1280.mp4",
+     "poster": "highlight-955-poster.jpg"
+    },
+    "frame_px": [
+     2560,
+     1504
+    ],
+    "seconds": 21.533
+   },
+   "rows": [
+    {
+     "row": "goal",
+     "success": false,
+     "verdict": "Unsuccessful"
+    },
+    {
+     "row": "avoid",
+     "success": false,
+     "verdict": "Unsuccessful"
+    },
+    {
+     "row": "ours_constraint",
+     "success": true,
+     "verdict": "Successful"
+    },
+    {
+     "row": "ours_full",
+     "success": true,
+     "verdict": "Successful"
+    }
+   ]
+  },
+  {
+   "scene": 927,
+   "set": "u",
+   "group": "no-gap",
+   "cell": {
+    "objects": 5,
+    "difficulty": "hard"
+   },
+   "target": {
+    "rel": "objaverse/wine/wine_10",
+    "category": "wine",
+    "name": "wine"
+   },
+   "video": {
+    "files": {
+     "video_full": "highlight-927-2560.mp4",
+     "video_small": "highlight-927-1280.mp4",
+     "poster": "highlight-927-poster.jpg"
+    },
+    "frame_px": [
+     2560,
+     1504
+    ],
+    "seconds": 5.533
+   },
+   "rows": [
+    {
+     "row": "goal",
+     "success": true,
+     "verdict": "Successful"
+    },
+    {
+     "row": "avoid",
+     "success": false,
+     "verdict": "Unsuccessful"
+    },
+    {
+     "row": "ours_constraint",
+     "success": true,
+     "verdict": "Successful"
+    },
+    {
+     "row": "ours_full",
+     "success": true,
+     "verdict": "Successful"
+    }
+   ]
+  },
+  {
+   "scene": 938,
+   "set": "u",
+   "group": "no-gap",
+   "cell": {
+    "objects": 5,
+    "difficulty": "hard"
+   },
+   "target": {
+    "rel": "aigen_objs/wine/wine_3",
+    "category": "wine",
+    "name": "wine"
+   },
+   "video": {
+    "files": {
+     "video_full": "highlight-938-2560.mp4",
+     "video_small": "highlight-938-1280.mp4",
+     "poster": "highlight-938-poster.jpg"
+    },
+    "frame_px": [
+     2560,
+     1504
+    ],
+    "seconds": 9.633
+   },
+   "rows": [
+    {
+     "row": "goal",
+     "success": true,
+     "verdict": "Successful"
+    },
+    {
+     "row": "avoid",
+     "success": false,
+     "verdict": "Unsuccessful"
+    },
+    {
+     "row": "ours_constraint",
+     "success": true,
+     "verdict": "Successful"
+    },
+    {
+     "row": "ours_full",
+     "success": true,
+     "verdict": "Successful"
+    }
+   ]
+  },
+  {
+   "scene": 942,
+   "set": "u20",
+   "group": "no-gap",
+   "cell": {
+    "objects": 20,
+    "difficulty": "easy"
+   },
+   "target": {
+    "rel": "objaverse/water_bottle/water_bottle_3",
+    "category": "water_bottle",
+    "name": "water bottle"
+   },
+   "video": {
+    "files": {
+     "video_full": "highlight-942-2560.mp4",
+     "video_small": "highlight-942-1280.mp4",
+     "poster": "highlight-942-poster.jpg"
+    },
+    "frame_px": [
+     2560,
+     1504
+    ],
+    "seconds": 26.9
+   },
+   "rows": [
+    {
+     "row": "goal",
+     "success": true,
+     "verdict": "Successful"
+    },
+    {
+     "row": "avoid",
+     "success": false,
+     "verdict": "Unsuccessful"
+    },
+    {
+     "row": "ours_constraint",
+     "success": true,
+     "verdict": "Successful"
+    },
+    {
+     "row": "ours_full",
+     "success": true,
+     "verdict": "Successful"
+    }
+   ]
+  },
+  {
+   "scene": 937,
+   "set": "u",
+   "group": "no-gap",
+   "cell": {
+    "objects": 5,
+    "difficulty": "hard"
+   },
+   "target": {
+    "rel": "aigen_objs/wine/wine_4",
+    "category": "wine",
+    "name": "wine"
+   },
+   "video": {
+    "files": {
+     "video_full": "highlight-937-2560.mp4",
+     "video_small": "highlight-937-1280.mp4",
+     "poster": "highlight-937-poster.jpg"
+    },
+    "frame_px": [
+     2560,
+     1504
+    ],
+    "seconds": 5.9
+   },
+   "rows": [
+    {
+     "row": "goal",
+     "success": false,
+     "verdict": "Unsuccessful"
+    },
+    {
+     "row": "avoid",
+     "success": true,
+     "verdict": "Successful"
+    },
+    {
+     "row": "ours_constraint",
+     "success": true,
+     "verdict": "Successful"
+    },
+    {
+     "row": "ours_full",
+     "success": true,
+     "verdict": "Successful"
+    }
+   ]
+  },
+  {
+   "scene": 910,
+   "set": "u",
+   "group": "everyone-fails",
+   "cell": {
+    "objects": 10,
+    "difficulty": "easy"
+   },
+   "target": {
+    "rel": "aigen_objs/wine/wine_0",
+    "category": "wine",
+    "name": "wine"
+   },
+   "video": {
+    "files": {
+     "video_full": "highlight-910-2560.mp4",
+     "video_small": "highlight-910-1280.mp4",
+     "poster": "highlight-910-poster.jpg"
+    },
+    "frame_px": [
+     2560,
+     1504
+    ],
+    "seconds": 18.8
+   },
+   "rows": [
+    {
+     "row": "goal",
+     "success": false,
+     "verdict": "Unsuccessful"
+    },
+    {
+     "row": "avoid",
+     "success": false,
+     "verdict": "Unsuccessful"
+    },
+    {
+     "row": "ours_constraint",
+     "success": false,
+     "verdict": "Unsuccessful"
+    },
+    {
+     "row": "ours_full",
+     "success": false,
+     "verdict": "Unsuccessful"
+    }
+   ]
+  }
+ ]
+}

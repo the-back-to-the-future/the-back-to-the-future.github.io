@@ -181,6 +181,57 @@ function initHeroVideo(root) {
   markCurrent();
 }
 
+// Video pair: both clips play together while most of the pair is on screen (never by itself
+// under reduced motion) and restart together once the longer one ends, so they stay in step;
+// one toggle plays and pauses both, and the reader's pause holds until they press Play.
+const PAIR_VISIBLE_RATIO = 0.6;
+function initVideoPair(root) {
+  const videos = Array.from(root.querySelectorAll("video"));
+  const toggle = root.querySelector("[data-video-toggle]");
+  let readerPaused = false;
+  const showState = () => { setLabel(toggle, videos.every((video) => video.paused) ? "Play" : "Pause"); };
+  const play = () => videos.forEach((video) => video.play().catch((error) => {
+    showState();
+    console.error("Pair clip could not play", video.currentSrc, error);
+  }));
+  const pause = () => videos.forEach((video) => video.pause());
+  videos.forEach((video) => {
+    video.addEventListener("ended", () => {
+      if (!videos.every((other) => other.ended)) return;
+      videos.forEach((other) => { other.currentTime = 0; });
+      play();
+    });
+    video.addEventListener("play", showState);
+    video.addEventListener("pause", showState);
+  });
+  toggle.addEventListener("click", () => {
+    readerPaused = !videos.every((video) => video.paused);
+    if (readerPaused) pause(); else play();
+  });
+  new IntersectionObserver((records) => {
+    records.forEach((record) => {
+      if (record.intersectionRatio < PAIR_VISIBLE_RATIO) pause();
+      else if (!reduceMotion.matches && !readerPaused) play();
+    });
+  }, { threshold: [0, PAIR_VISIBLE_RATIO] }).observe(root);
+  showState();
+}
+
+// Section menu (below 1068 px): the Sections button opens and closes the bar's link list; a chosen
+// link, Escape or a click outside the bar closes it.
+function initSectionMenu(button) {
+  const list = document.getElementById(button.getAttribute("aria-controls"));
+  const setOpen = (open) => {
+    button.setAttribute("aria-expanded", String(open));
+    if (open) list.dataset.open = "";
+    else delete list.dataset.open;
+  };
+  button.addEventListener("click", () => setOpen(button.getAttribute("aria-expanded") !== "true"));
+  list.addEventListener("click", (event) => { if (event.target.closest("a")) setOpen(false); });
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape") setOpen(false); });
+  document.addEventListener("click", (event) => { if (!event.target.closest(".bar")) setOpen(false); });
+}
+
 // Every element the stylesheet rounds inside root, not yet converted; the corner rule has
 // no exceptions, so content built later (the charts' controls) is passed through it too.
 function applyContinuousCorners(root) {
@@ -281,6 +332,8 @@ function initHashLanding() {
 
 document.querySelectorAll("[data-carousel]").forEach(initCarousel);
 document.querySelectorAll("[data-hero-video]").forEach(initHeroVideo);
+document.querySelectorAll("[data-video-pair]").forEach(initVideoPair);
+document.querySelectorAll("[data-section-menu]").forEach(initSectionMenu);
 document.querySelectorAll("[data-strip]").forEach(initStrip);
 initSteps(Array.from(document.querySelectorAll(".step")));
 document.querySelectorAll("[data-copy]").forEach(initCopy);

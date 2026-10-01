@@ -21,20 +21,28 @@
 <script src="assets/js/charts.js" defer></script>
 <script src="assets/js/table.js" defer></script>
 <script src="assets/js/corrector.js" defer></script>
+<script src="assets/js/highlights.js" defer></script>
 </head>
 <body>
 
 <a class="skip" href="#main">Skip to content</a>
 
 <nav class="bar" aria-label="Page sections">
-  <div class="wrap bar__inner">
+  <div class="bar__inner">
     <a class="bar__brand" href="#top">Back to the Future</a>
-    <div class="bar__links">
+    <button type="button" class="bar__menu" data-section-menu aria-expanded="false" aria-controls="bar-links">Sections</button>
+    <div class="bar__links" id="bar-links">
+      <a href="#abstract">Abstract</a>
+      <a href="#highlights">Highlights</a>
+      <a href="#overview">Overview</a>
       <a href="#method">Method</a>
-      <a href="#experiments">Experiments</a>
+      <a href="#experiments">Setup</a>
+      <a href="#dynamics">Dynamics</a>
+      <a href="#correction">Correction</a>
+      <a href="#retrieval">Retrieval</a>
+      <a href="#video">Video</a>
       <a href="#bibtex">BibTeX</a>
     </div>
-    <span class="bar__pill" aria-disabled="true">Paper (coming soon)</span>
   </div>
 </nav>
 
@@ -53,9 +61,10 @@
     <p class="hero__authors">Anonymous Submission</p>
     <div class="hero__links">
       <span class="pill" aria-disabled="true">Paper (coming soon)</span>
-      <a class="pill pill--link" href="#video">Video</a>
+      <a class="pill pill--link" href="#video">Supplementary Video</a>
       <span class="pill" aria-disabled="true">Code (coming soon)</span>
     </div>
+    <p class="hero__note">The paper and code will be released once the ICRA 2027 decision is final.</p>
     <div class="hero__media hero-video" data-hero-video>
       <video class="hero-video__player" muted loop playsinline preload="auto" width="3840" height="1248" poster="assets/media/hero-947-poster.jpg" data-phone-media="(max-width: 734px)" data-phone-poster="assets/media/hero-947-phone-poster.jpg" aria-describedby="hero-video-caption">
         <source src="assets/media/hero-947-phone-1280.mp4" type="video/mp4" media="(max-width: 734px)">
@@ -66,10 +75,10 @@
         <button type="button" class="hero-video__toggle" data-video-toggle>Pause</button>
       </div>
       <nav class="chapters" aria-label="Jump to a method">
-        <button type="button" class="chapter" data-time="0"><span class="chapter__time">0:00</span><span class="chapter__name">Collision avoidance</span></button>
-        <button type="button" class="chapter" data-time="12.033"><span class="chapter__time">0:12</span><span class="chapter__name">Direct retrieval</span></button>
-        <button type="button" class="chapter" data-time="17.433"><span class="chapter__time">0:17</span><span class="chapter__name">Ours w/o dist. obj.</span></button>
-        <button type="button" class="chapter" data-time="33.133"><span class="chapter__time">0:33</span><span class="chapter__name">Ours</span></button>
+        <button type="button" class="chapter" data-time="0"><span class="chapter__time">0:00</span><span class="chapter__name">Collision avoidance</span><span class="chapter__desc">Treats the other objects as fixed and accepts only motions that keep the target at least 5&nbsp;mm from every object; when none exists, it waits.</span></button>
+        <button type="button" class="chapter" data-time="12.033"><span class="chapter__time">0:12</span><span class="chapter__name">Direct retrieval</span><span class="chapter__desc">Treats the other objects as fixed and drives the target toward the opening with no regard for contact.</span></button>
+        <button type="button" class="chapter" data-time="17.433"><span class="chapter__time">0:17</span><span class="chapter__name">Ours w/o dist. obj.</span><span class="chapter__desc">Predicts how every object moves with DARE&rsquo;s learned dynamics and accepts only plans that keep each object&rsquo;s predicted displacement and tilt within safety limits, but optimizes progress alone.</span></button>
+        <button type="button" class="chapter" data-time="33.133"><span class="chapter__time">0:33</span><span class="chapter__name">Ours</span><span class="chapter__desc">Uses the same predictions and limits, and also minimizes every object&rsquo;s predicted displacement, tilt and yaw while making progress.</span></button>
       </nav>
     </div>
   </div>
@@ -84,16 +93,12 @@
     </div>
   </section>
 
-  <section class="theme-sky" id="highlights" data-strip>
+  <section class="theme-sky" id="highlights" data-highlights data-highlights-src="assets/data/highlights.json" data-media-dir="assets/media/highlights/">
     <div class="wrap">
       <h2 class="headline">Highlights</h2>
+      <p class="intro highlights__intro">Each clip shows <strong>the four methods retrieving the same target</strong> from one cabinet scene side by side, one column per method, <strong>rendered with the arm in the control loop</strong>. The result under each method is the paper&rsquo;s for that scene.</p>
     </div>
-    <div class="strip" tabindex="0" aria-label="Highlight videos">
-      <figure class="tile"><div class="ph ph--4x5" role="img" aria-label="Video placeholder"><span><strong>Video, 4:5</strong>Highlight 1</span><span class="ph__ctrl" aria-hidden="true"></span></div><figcaption class="text-slot">Caption</figcaption></figure>
-      <figure class="tile"><div class="ph ph--4x5" role="img" aria-label="Video placeholder"><span><strong>Video, 4:5</strong>Highlight 2</span><span class="ph__ctrl" aria-hidden="true"></span></div><figcaption class="text-slot">Caption</figcaption></figure>
-      <figure class="tile"><div class="ph ph--4x5" role="img" aria-label="Video placeholder"><span><strong>Video, 4:5</strong>Highlight 3</span><span class="ph__ctrl" aria-hidden="true"></span></div><figcaption class="text-slot">Caption</figcaption></figure>
-      <figure class="tile"><div class="ph ph--4x5" role="img" aria-label="Video placeholder"><span><strong>Video, 4:5</strong>Highlight 4</span><span class="ph__ctrl" aria-hidden="true"></span></div><figcaption class="text-slot">Caption</figcaption></figure>
-    </div>
+    <div class="strip strip--clips" tabindex="0" aria-label="Highlight videos"></div>
     <div class="wrap strip-nav">
       <button type="button" data-strip-prev aria-label="Previous highlight">&lsaquo;</button>
       <button type="button" data-strip-next aria-label="Next highlight">&rsaquo;</button>
@@ -241,10 +246,16 @@
         <div><span class="stat__value" data-stat="Direct retrieval|Clean|–|success|20|Hard">0.10</span><span class="stat__label">success rate of direct retrieval in the same scenes</span></div>
         <div><span class="stat__value" data-stat="Ours|Noisy|Off|success|10|Easy > Ours|Noisy|On|success|10|Easy">0.00 → 1.00</span><span class="stat__label">success rate under noisy observations at 10 objects, easy placement, without and with retrospective correction</span></div>
       </div>
-      <div class="pair">
-        <div class="ph ph--16x9" role="img" aria-label="Video placeholder"><span><strong>Video, 16:9</strong>Baseline</span><span class="ph__ctrl" aria-hidden="true"></span></div>
-        <div class="ph ph--16x9" role="img" aria-label="Video placeholder"><span><strong>Video, 16:9</strong>Ours</span><span class="ph__ctrl" aria-hidden="true"></span></div>
-      </div>
+      <figure class="pair-figure" data-video-pair>
+        <div class="pair">
+          <video class="pair__video" muted playsinline preload="none" width="1280" height="1248" poster="assets/media/retrieval-905-direct-poster.jpg"><source src="assets/media/retrieval-905-direct.mp4" type="video/mp4"></video>
+          <video class="pair__video" muted playsinline preload="none" width="1280" height="1248" poster="assets/media/retrieval-905-ours-poster.jpg"><source src="assets/media/retrieval-905-ours.mp4" type="video/mp4"></video>
+        </div>
+        <figcaption class="pair__bar">
+          <span class="pair__caption"><strong>Direct retrieval</strong> (left) and <strong>Ours</strong> (right) in the scene of Fig. 5, seen from above and sped up, rendered with the arm in the control loop.</span>
+          <button type="button" class="clip__toggle" data-video-toggle>Play</button>
+        </figcaption>
+      </figure>
       <figure>
         <div class="fig-card">
           <img src="assets/media/figures/fig5-retrieval.png" width="1960" height="1730" alt="Top-down views of one cabinet scene in three rows: direct retrieval pushes neighbors over, collision avoidance barely moves the target, and our method brings the target out along a curved path with its neighbors standing.">
