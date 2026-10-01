@@ -232,7 +232,8 @@ figure { margin: 0; }
 /* Highlight clips: one wide tile per scene, the next one peeking in */
 .highlights__intro { max-width: var(--col-text); margin-bottom: 48px; }
 .strip--clips { grid-auto-columns: min(1100px, 100vw - 2 * var(--gutter) - 48px); }
-.clip__group { margin: 0 0 10px; font-size: 14px; font-weight: 600; color: var(--accent); }
+.clip__group { margin: 0 0 14px; font-size: 28px; line-height: 1.143; font-weight: 600; letter-spacing: 0.007em; color: var(--accent); }
+.clip__episode { color: var(--cream); }
 .clip__video { display: block; width: 100%; height: auto; border-radius: 18px; background: var(--night); }
 .clip__bar { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
 /* the four results, each under its own column of the tile video */
@@ -349,6 +350,7 @@ figure { margin: 0; }
   .stat__value { font-size: 40px; }
   .chapters { grid-template-columns: repeat(2, 1fr); }
   .clip__result { padding-inline: 4px; }
+  .clip__group { font-size: 21px; line-height: 1.19; }
   .clip__method, .clip__verdict { font-size: 12px; }
   .fig-card--wide { display: none; }
   .fig-card--panels { display: block; }

@@ -63,7 +63,9 @@ function buildTile(data, scene, mediaDir) {
   const results = clipEl("ul", "clip__results");
   results.setAttribute("aria-label", "Each method's result");
   data.methods.forEach((method) => results.append(buildVerdict(method, entries[method.row])));
-  tile.append(clipEl("p", "clip__group", groups[scene.group]), video, results, caption);
+  const heading = clipEl("p", "clip__group");
+  heading.append(clipEl("span", "clip__episode", `Episode ${scene.scene}`), ` · ${groups[scene.group]}`);
+  tile.append(heading, video, results, caption);
   return tile;
 }
 
