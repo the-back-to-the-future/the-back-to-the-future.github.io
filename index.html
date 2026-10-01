@@ -15,13 +15,13 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://the-back-to-the-future.github.io/assets/media/social-preview.png">
 <title>Back to the Future: Predicting Long-Horizon Dynamics with Retrospective Correction for Disturbance-Aware Retrieval</title>
-<link rel="stylesheet" href="assets/css/site.css">
-<script src="assets/js/site.js" defer></script>
-<script src="assets/js/vendor/chart-4.5.1.umd.min.js" defer></script>
-<script src="assets/js/charts.js" defer></script>
-<script src="assets/js/table.js" defer></script>
-<script src="assets/js/corrector.js" defer></script>
-<script src="assets/js/highlights.js" defer></script>
+<link rel="stylesheet" href="assets/css/site.css?v=d13ce9eff9">
+<script src="assets/js/site.js?v=60dc56bb3b" defer></script>
+<script src="assets/js/vendor/chart-4.5.1.umd.min.js?v=48444a82d4" defer></script>
+<script src="assets/js/charts.js?v=a05d3f7901" defer></script>
+<script src="assets/js/table.js?v=38fb9f8a86" defer></script>
+<script src="assets/js/corrector.js?v=3a70e79df7" defer></script>
+<script src="assets/js/highlights.js?v=894eba35de" defer></script>
 </head>
 <body>
 
@@ -66,9 +66,9 @@
     </div>
     <p class="hero__note">The paper and code will be released once the ICRA 2027 decision is final.</p>
     <div class="hero__media hero-video" data-hero-video>
-      <video class="hero-video__player" muted loop playsinline preload="auto" width="3840" height="1248" poster="assets/media/hero-947-poster.jpg" data-phone-media="(max-width: 734px)" data-phone-poster="assets/media/hero-947-phone-poster.jpg" aria-describedby="hero-video-caption">
-        <source src="assets/media/hero-947-phone-1280.mp4" type="video/mp4" media="(max-width: 734px)">
-        <source src="assets/media/hero-947-3840.mp4" type="video/mp4">
+      <video class="hero-video__player" muted loop playsinline preload="auto" width="3840" height="1248" poster="assets/media/hero-947-poster.jpg?v=de562066a1" data-phone-media="(max-width: 734px)" data-phone-poster="assets/media/hero-947-phone-poster.jpg?v=2072300335" aria-describedby="hero-video-caption">
+        <source src="assets/media/hero-947-phone-1280.mp4?v=4082653e01" type="video/mp4" media="(max-width: 734px)">
+        <source src="assets/media/hero-947-3840.mp4?v=b640ca2df3" type="video/mp4">
       </video>
       <div class="hero-video__bar">
         <p class="hero-video__caption" id="hero-video-caption">One cabinet compartment with <em>20 objects in a hard layout</em>: the four methods retrieve <strong>the same wine bottle</strong>, one after another. The badge at the lower left gives the playback speed.</p>
@@ -93,7 +93,7 @@
     </div>
   </section>
 
-  <section class="theme-sky" id="highlights" data-highlights data-highlights-src="assets/data/highlights.json" data-media-dir="assets/media/highlights/">
+  <section class="theme-sky" id="highlights" data-highlights data-highlights-src="assets/data/highlights.json?v=d6dce45140" data-media-dir="assets/media/highlights/">
     <div class="wrap">
       <h2 class="headline">Highlights</h2>
       <p class="intro highlights__intro">Each clip shows <strong>the four methods retrieving the same target</strong> from one cabinet scene side by side, one column per method, <strong>rendered with the arm in the control loop</strong>. The result under each method is the paper&rsquo;s for that scene.</p>
@@ -111,12 +111,12 @@
       <h2 class="headline">Disturbance-aware retrieval</h2>
       <figure>
         <div class="fig-card fig-card--wide">
-          <img src="assets/media/figures/fig1-teaser.png" width="1960" height="504" alt="Three views of the same cluttered shelf: collision avoidance leaves the bottle blocked, direct retrieval knocks a neighbor over, and our method pulls the bottle out with controlled contact.">
+          <img src="assets/media/figures/fig1-teaser.png?v=de59b4a37a" width="1960" height="504" alt="Three views of the same cluttered shelf: collision avoidance leaves the bottle blocked, direct retrieval knocks a neighbor over, and our method pulls the bottle out with controlled contact.">
         </div>
         <div class="fig-card fig-card--panels">
-          <img src="assets/media/figures/fig1-teaser-a.png" width="1960" height="1541" alt="Collision avoidance: the target is boxed in by its neighbors, so no contact-free path exists.">
-          <img src="assets/media/figures/fig1-teaser-b.png" width="1960" height="1541" alt="Direct retrieval: the bottle is pulled straight out and a neighboring bottle topples.">
-          <img src="assets/media/figures/fig1-teaser-c.png" width="1960" height="1541" alt="Ours: the bottle follows a curved route and every neighbor stays upright.">
+          <img src="assets/media/figures/fig1-teaser-a.png?v=a4bf4080c8" width="1960" height="1541" alt="Collision avoidance: the target is boxed in by its neighbors, so no contact-free path exists.">
+          <img src="assets/media/figures/fig1-teaser-b.png?v=96eeaac7ba" width="1960" height="1541" alt="Direct retrieval: the bottle is pulled straight out and a neighboring bottle topples.">
+          <img src="assets/media/figures/fig1-teaser-c.png?v=e81fe6ce97" width="1960" height="1541" alt="Ours: the bottle follows a curved route and every neighbor stays upright.">
         </div>
         <figcaption class="caption"><strong>Fig. 1: Disturbance-aware retrieval.</strong> (a) Collision avoidance leaves the target blocked. (b) Direct retrieval topples a neighboring object. (c) Our method predicts contact-induced disturbance to plan retrieval through controlled contact, preserving stability of surrounding objects.</figcaption>
       </figure>
@@ -129,13 +129,13 @@
       <h2 class="headline">Pipeline Overview</h2>
       <figure class="method__overview">
         <div class="fig-card">
-          <img src="assets/media/figures/fig2-pipeline.png" srcset="assets/media/figures/fig2-pipeline.png 1960w, assets/media/figures/fig2-pipeline-2x.png 3920w" sizes="(max-width: 1068px) 100vw, 980px" width="1960" height="452" alt="Pipeline: object geometry and the scene state enter an interaction graph, action propagation and prediction produce rollouts of candidate actions, and the planner picks the retrieval path.">
+          <img src="assets/media/figures/fig2-pipeline.png?v=ce117e268a" srcset="assets/media/figures/fig2-pipeline.png 1960w, assets/media/figures/fig2-pipeline-2x.png 3920w" sizes="(max-width: 1068px) 100vw, 980px" width="1960" height="452" alt="Pipeline: object geometry and the scene state enter an interaction graph, action propagation and prediction produce rollouts of candidate actions, and the planner picks the retrieval path.">
         </div>
         <figcaption class="caption"><strong>Fig. 2: Pipeline Overview.</strong> Given object geometry and the current scene state, DARE propagates action-conditioned interactions over an object graph to predict scene evolution under candidate target motions. The resulting rollouts capture direct and indirect disturbances to surrounding objects, enabling the planner to select a retrieval trajectory that balances goal progress against collateral disturbance.</figcaption>
       </figure>
       <div class="method" data-method>
         <figure class="method__fig" aria-hidden="true">
-          <div class="fig-card"><img class="pipeline-focus" src="assets/media/figures/fig2-pipeline-2x.png" width="3920" height="904" alt=""></div>
+          <div class="fig-card"><img class="pipeline-focus" src="assets/media/figures/fig2-pipeline-2x.png?v=93ef9ae9c3" width="3920" height="904" alt=""></div>
           <figcaption class="caption">The part of Fig. 2 the step beside it describes.</figcaption>
         </figure>
         <ol class="steps">
@@ -175,9 +175,9 @@
       <p class="eyebrow">Experiments</p>
       <h2 class="headline">Experiments Setup</h2>
       <div class="trio">
-        <figure><div class="fig-card fig-card--square"><img src="assets/media/figures/world-puck-table.png" width="1200" height="1200" alt="Five pucks on a flat table with the pusher above them."></div><figcaption>Planar puck table<span class="trio__use">Dynamics prediction (E1) and joint training (E2).</span></figcaption></figure>
-        <figure><div class="fig-card fig-card--square"><img src="assets/media/figures/world-robocasa-tabletop.png" width="1200" height="1200" alt="Household objects on a tabletop with the pusher beside them."></div><figcaption>RoboCasa tabletop scenes<span class="trio__use">Dynamics prediction on seen and unseen objects (E1), joint training and correction under noise (E2, Fig. 4).</span></figcaption></figure>
-        <figure><div class="fig-card fig-card--square"><img src="assets/media/figures/world-kitchen-cabinets.png" width="1200" height="1200" alt="A kitchen cabinet compartment packed with bottles, the Panda arm reaching in."></div><figcaption>RoboCasa kitchen cabinets<span class="trio__use">Dynamics prediction (E1), correction under noise (E2), and every retrieval experiment (E3, Table I).</span></figcaption></figure>
+        <figure><div class="fig-card fig-card--square"><img src="assets/media/figures/world-puck-table.png?v=5036793258" width="1200" height="1200" alt="Five pucks on a flat table with the pusher above them."></div><figcaption>Planar puck table<span class="trio__use">Dynamics prediction (E1) and joint training (E2).</span></figcaption></figure>
+        <figure><div class="fig-card fig-card--square"><img src="assets/media/figures/world-robocasa-tabletop.png?v=b2ec577374" width="1200" height="1200" alt="Household objects on a tabletop with the pusher beside them."></div><figcaption>RoboCasa tabletop scenes<span class="trio__use">Dynamics prediction on seen and unseen objects (E1), joint training and correction under noise (E2, Fig. 4).</span></figcaption></figure>
+        <figure><div class="fig-card fig-card--square"><img src="assets/media/figures/world-kitchen-cabinets.png?v=9af3141700" width="1200" height="1200" alt="A kitchen cabinet compartment packed with bottles, the Panda arm reaching in."></div><figcaption>RoboCasa kitchen cabinets<span class="trio__use">Dynamics prediction (E1), correction under noise (E2), and every retrieval experiment (E3, Table I).</span></figcaption></figure>
       </div>
     </div>
   </section>
@@ -191,16 +191,16 @@
           <p class="carousel__status" data-carousel-status aria-live="polite"></p>
           <button type="button" class="carousel__arrow" data-carousel-next aria-label="Next chart">&rsaquo;</button>
         </div>
-        <figure class="chart" data-carousel-slide data-slide-title="Terminal error, normalized" data-chart="bars" data-chart-y="ratio" data-chart-src="assets/data/e1-f1.json">
+        <figure class="chart" data-carousel-slide data-slide-title="Terminal error, normalized" data-chart="bars" data-chart-y="ratio" data-chart-src="assets/data/e1-f1.json?v=8e521c48fd">
           <figcaption class="caption">Fig. 6: Dynamics prediction. Terminal translation (left) and rotation (right) errors normalized by the no-motion error at each horizon. Rotation is omitted for symmetric pucks. The seen-object worlds are added here beside the paper's three. <em>Choose the world, the error and the methods above; hover for the values, click the legend to hide a method.</em></figcaption>
         </figure>
-        <figure class="chart" data-carousel-slide data-slide-title="Terminal error, absolute" data-chart="bars" data-chart-y="value" data-chart-src="assets/data/e1-f1.json">
+        <figure class="chart" data-carousel-slide data-slide-title="Terminal error, absolute" data-chart="bars" data-chart-y="value" data-chart-src="assets/data/e1-f1.json?v=8e521c48fd">
           <figcaption class="caption">Terminal translation and rotation errors at each horizon in centimetres and degrees, on a log axis: the numbers behind Fig. 6 before normalization. <em>Choose the world, the error and the methods above; hover for the values, click the legend to hide a method.</em></figcaption>
         </figure>
-        <figure class="chart" data-carousel-slide data-slide-title="Error at every step, normalized" data-chart="lines" data-chart-y="ratio" data-chart-src="assets/data/e1-f2.json">
+        <figure class="chart" data-carousel-slide data-slide-title="Error at every step, normalized" data-chart="lines" data-chart-y="ratio" data-chart-src="assets/data/e1-f2.json?v=f74233e265">
           <figcaption class="caption">Error at every self-fed step, normalized by the no-motion error at the same step; translation steps whose no-motion error is under 0.01 cm are left out. <em>Choose the world, the error and the methods above; hover for the values, click the legend to hide a method.</em></figcaption>
         </figure>
-        <figure class="chart" data-carousel-slide data-slide-title="Error at every step, absolute" data-chart="lines" data-chart-y="value" data-chart-src="assets/data/e1-f2.json">
+        <figure class="chart" data-carousel-slide data-slide-title="Error at every step, absolute" data-chart="lines" data-chart-y="value" data-chart-src="assets/data/e1-f2.json?v=f74233e265">
           <figcaption class="caption">Error at every self-fed step in centimetres and degrees, on a log axis. <em>Choose the world, the error and the methods above; hover for the values, click the legend to hide a method.</em></figcaption>
         </figure>
       </section>
@@ -210,15 +210,15 @@
   <section class="theme-night" id="correction">
     <div class="wrap stack">
       <h2 class="headline">Retrospective Correction and Joint Training</h2>
-      <figure class="method__interactive" data-corrector data-corrector-src="assets/data/corrector.json">
+      <figure class="method__interactive" data-corrector data-corrector-src="assets/data/corrector.json?v=48973925b2">
         <div class="fig-card">
-          <img src="assets/media/figures/fig3-correction.png" width="1960" height="1155" alt="Two rows of predicted frames: the blind rollout drifts by step 40, while the corrector uses the observation mismatch at step 15 to amend step 11 and reroll, staying on the true states.">
+          <img src="assets/media/figures/fig3-correction.png?v=2338a68588" width="1960" height="1155" alt="Two rows of predicted frames: the blind rollout drifts by step 40, while the corrector uses the observation mismatch at step 15 to amend step 11 and reroll, staying on the true states.">
         </div>
         <figcaption class="caption"><strong>Fig. 3: Retrospective correction for long-horizon prediction.</strong> The corrector combines prior predictions with the observation mismatch at t<sub>15</sub> (yellow) to estimate a corrected state t&#771;<sub>11</sub>, the first step after the last observation t<sub>10</sub>. Rerolling from it propagates the correction through the learned dynamics and initializes the next cycle, mitigating error drift.</figcaption>
       </figure>
       <figure>
         <div class="fig-card">
-          <img src="assets/media/figures/fig4-tiles.png" width="1960" height="1509" alt="Three rows of four tabletop frames: predicted outlines drift off the objects without correction, inherit noise with direct observation, and stay aligned with the noise-trained corrector.">
+          <img src="assets/media/figures/fig4-tiles.png?v=5013fc2dc3" width="1960" height="1509" alt="Three rows of four tabletop frames: predicted outlines drift off the objects without correction, inherit noise with direct observation, and stay aligned with the noise-trained corrector.">
         </div>
         <figcaption class="caption"><strong>Fig. 4: Tabletop dynamics prediction under noise.</strong> Outlines in purple, light blue and dark blue indicate predicted object poses in a held-out scene as the target (yellow) pushes through clutter. Uncorrected predictions drift (top), direct observation updates inherit noise (middle), and noise-trained correction maintains alignment with the objects (bottom).</figcaption>
       </figure>
@@ -228,10 +228,10 @@
           <p class="carousel__status" data-carousel-status aria-live="polite"></p>
           <button type="button" class="carousel__arrow" data-carousel-next aria-label="Next chart">&rsaquo;</button>
         </div>
-        <figure class="chart" data-carousel-slide data-slide-title="Effect of joint training" data-chart="steps" data-chart-src="assets/data/e2-f7.json">
+        <figure class="chart" data-carousel-slide data-slide-title="Effect of joint training" data-chart="steps" data-chart-src="assets/data/e2-f7.json?v=be9a191859">
           <figcaption class="caption">Fig. 7: Effect of joint training. Terminal translation (top) and rotation (bottom) errors with shared pretrained initialization and matched additional optimization steps. The dashed line is the pretrained network before any additional step. <em>Choose the world and the error above; hover for the values, click the legend to hide a method.</em></figcaption>
         </figure>
-        <figure class="chart" data-carousel-slide data-slide-title="Retrospective correction under noise" data-chart="noise" data-chart-src="assets/data/e2-f8.json">
+        <figure class="chart" data-carousel-slide data-slide-title="Retrospective correction under noise" data-chart="noise" data-chart-src="assets/data/e2-f8.json?v=aad20490bf">
           <figcaption class="caption">Fig. 8: Retrospective correction under noise. Translation (top) and rotation (bottom) RMSE over 40-step rollouts versus observation noise σ, fixed within each rollout. Shading indicates noise levels beyond the noise training range. <em>Choose the world and the error above; hover for the values, click the legend to hide a method.</em></figcaption>
         </figure>
       </section>
@@ -248,8 +248,8 @@
       </div>
       <figure class="pair-figure" data-video-pair>
         <div class="pair">
-          <video class="pair__video" muted playsinline preload="none" width="1280" height="1248" poster="assets/media/retrieval-905-direct-poster.jpg"><source src="assets/media/retrieval-905-direct.mp4" type="video/mp4"></video>
-          <video class="pair__video" muted playsinline preload="none" width="1280" height="1248" poster="assets/media/retrieval-905-ours-poster.jpg"><source src="assets/media/retrieval-905-ours.mp4" type="video/mp4"></video>
+          <video class="pair__video" muted playsinline preload="none" width="1280" height="1248" poster="assets/media/retrieval-905-direct-poster.jpg?v=09690c4287"><source src="assets/media/retrieval-905-direct.mp4?v=d50d769afd" type="video/mp4"></video>
+          <video class="pair__video" muted playsinline preload="none" width="1280" height="1248" poster="assets/media/retrieval-905-ours-poster.jpg?v=a5d4ac646b"><source src="assets/media/retrieval-905-ours.mp4?v=f24396d0a4" type="video/mp4"></video>
         </div>
         <figcaption class="pair__bar">
           <span class="pair__caption"><strong>Direct retrieval</strong> (left) and <strong>Ours</strong> (right) in the scene of Fig. 5, seen from above and sped up, rendered with the arm in the control loop.</span>
@@ -258,11 +258,11 @@
       </figure>
       <figure>
         <div class="fig-card">
-          <img src="assets/media/figures/fig5-retrieval.png" width="1960" height="1730" alt="Top-down views of one cabinet scene in three rows: direct retrieval pushes neighbors over, collision avoidance barely moves the target, and our method brings the target out along a curved path with its neighbors standing.">
+          <img src="assets/media/figures/fig5-retrieval.png?v=fa958fbb09" width="1960" height="1730" alt="Top-down views of one cabinet scene in three rows: direct retrieval pushes neighbors over, collision avoidance barely moves the target, and our method brings the target out along a curved path with its neighbors standing.">
         </div>
         <figcaption class="caption"><strong>Fig. 5: Object Retrieval Visualization.</strong> Top-down views compare three planners, with target motion marked in orange. Each row shows four evenly spaced execution steps with translucent next-step poses and the executed target path in the final frame.</figcaption>
       </figure>
-      <figure class="results-figure" data-table data-table-src="assets/data/table-1.json">
+      <figure class="results-figure" data-table data-table-src="assets/data/table-1.json?v=09fe42c96c">
         <div class="ph ph--table" role="img" aria-label="Table I loads here"><span><strong>Table I</strong>Retrieval from cluttered compartments</span></div>
       </figure>
     </div>
@@ -272,8 +272,8 @@
     <div class="wrap">
       <h2 class="headline headline--small">Supplementary Video</h2>
       <figure>
-        <video class="supp-video" controls preload="none" playsinline poster="assets/media/supplementary-video-poster.jpg" width="1920" height="1080">
-          <source src="assets/media/supplementary-video.mp4" type="video/mp4">
+        <video class="supp-video" controls preload="none" playsinline poster="assets/media/supplementary-video-poster.jpg?v=336d40b21d" width="1920" height="1080">
+          <source src="assets/media/supplementary-video.mp4?v=5acd93b1c8" type="video/mp4">
         </video>
         <figcaption class="caption">The supplementary video submitted with the paper: the problem, the method, and the experiments, narrated with captions (2 min 57 s).</figcaption>
       </figure>
